@@ -18,7 +18,7 @@ public class select extends AppCompatActivity {
         btn1.setOnClickListener(new  View.OnClickListener() {//슈팅버블
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Bubble_MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), bubble_info.class);
                 startActivity(intent);
             }
         });
@@ -26,7 +26,7 @@ public class select extends AppCompatActivity {
         btn2.setOnClickListener(new  View.OnClickListener() {//헌팅버드
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Bird_MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), bird_info.class);
                 startActivity(intent);
             }
         });
@@ -34,7 +34,7 @@ public class select extends AppCompatActivity {
         btn3.setOnClickListener(new  View.OnClickListener() {//스파이더
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Spider_MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), spider_info.class);
                 startActivity(intent);
             }
         });

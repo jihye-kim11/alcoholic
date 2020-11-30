@@ -5,22 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-public class mainpage extends AppCompatActivity {
+public class spider_info extends AppCompatActivity {
     private ImageButton button1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mainpage);
-        button1=(ImageButton)findViewById(R.id.imageButton);
+        setContentView(R.layout.activity_spider_info);
+        button1=(ImageButton)findViewById(R.id.imageButton_spider);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getApplicationContext(), loading.class);
+                Intent intent = new Intent(getApplicationContext(), Spider_MainActivity.class);
                 startActivity(intent);
-               // Toast.makeText(getApplicationContext(),"메시지 알림.", Toast.LENGTH_SHORT).show(); // 짧게 표시
 
             }
         });
