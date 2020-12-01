@@ -81,6 +81,7 @@ public class Spider_GameView extends View {
         if (mThread == null) {
             mThread = new GameThread();
             mThread.start();
+
         }
     }
 
@@ -171,9 +172,10 @@ public class Spider_GameView extends View {
             if (mFly.get(i).isDead) {
                 killCount++;
                 score += mFly.get(i).score;
-
+                //led 1개씩 켜기
                 // 나비 초기화
                 mFly.get(i).init();
+
             }
         }
 

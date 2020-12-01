@@ -1,7 +1,9 @@
 package com.company.my.alchoholic;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +33,16 @@ public class Bird_MainActivity extends AppCompatActivity {
                 ( (Bird_GameView)findViewById(R.id.gameView) ).initGame();
             }
         });
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Intent intent = new Intent(getApplicationContext(), select.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 10000);//10초동안 진행
     }
 
     // Back Key 처리

@@ -1,7 +1,9 @@
 package com.company.my.alchoholic;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
@@ -17,6 +19,17 @@ public class Spider_MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // getSupportActionBar().hide();
         setTitle("독거미의 나비 사냥");
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Intent intent = new Intent(getApplicationContext(), select.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 20000);//20초동안 진행
+        //점수 결과 확인 ->점수로 성공 실패 페이지 띄우기
     }
 
     @Override
