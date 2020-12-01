@@ -1,7 +1,0 @@
-[
-{
-  "directory": "C:/Users/jomingyu/Documents/GitHub/alcoholic/alchoholic_ver1/11_4_HuntingBird2/app/.cxx/cmake/debug/x86_64",
-  "command": "C:\\Users\\jomingyu\\AppData\\Local\\Android\\Sdk\\ndk\\21.3.6528147\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android21 --gcc-toolchain=C:/Users/jomingyu/AppData/Local/Android/Sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/jomingyu/AppData/Local/Android/Sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dsensor_EXPORTS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles\\sensor.dir\\sensor.cpp.o -c C:\\Users\\jomingyu\\Documents\\GitHub\\alcoholic\\alchoholic_ver1\\11_4_HuntingBird2\\app\\src\\main\\cpp\\sensor.cpp",
-  "file": "C:\\Users\\jomingyu\\Documents\\GitHub\\alcoholic\\alchoholic_ver1\\11_4_HuntingBird2\\app\\src\\main\\cpp\\sensor.cpp"
-}
-]
