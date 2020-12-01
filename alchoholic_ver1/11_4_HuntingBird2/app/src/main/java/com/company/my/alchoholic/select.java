@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 public class select extends AppCompatActivity {
-    private ImageButton btn1,btn2,btn3;
+    private ImageButton btn1,btn2,btn3,btn4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +35,16 @@ public class select extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), spider_info.class);
+                startActivity(intent);
+            }
+        });
+
+        btn4=(ImageButton)findViewById(R.id.button4);
+        btn4.setOnClickListener(new  View.OnClickListener() {//스파이더
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(getApplicationContext(), loading.class);
                 startActivity(intent);
             }
         });

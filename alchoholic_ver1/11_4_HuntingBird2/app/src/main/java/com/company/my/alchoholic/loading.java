@@ -29,6 +29,7 @@ public class loading extends AppCompatActivity {
             {
                 Intent intent = new Intent(getApplicationContext(), select.class);
                 startActivity(intent);
+                finish();
             }
         }, 5000);//5초 딜레이를 준 후 시작
 }

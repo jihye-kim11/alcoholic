@@ -14,7 +14,28 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="280dp" />
+            android:layout_height="10dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="530dp"
+                android:layout_height="100dp" />
+
+            <ImageButton
+                android:id="@+id/button4"
+                android:layout_width="200dp"
+                android:layout_height="55dp"
+                android:background="@android:color/background_light"
+                app:srcCompat="@drawable/back_btn" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="180dp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
