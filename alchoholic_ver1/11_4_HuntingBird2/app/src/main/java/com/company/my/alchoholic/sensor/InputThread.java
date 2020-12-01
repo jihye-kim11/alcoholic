@@ -30,7 +30,7 @@ public class InputThread implements Runnable{
     public void run() {
         while(true){
             int rawBtnValue = readBtns(fds[SensorType.BUTTON.getSensorCode()]);
-            for (int idx = 0; idx< 9; idx++){
+            for (int idx = 0; idx< Sensor.NUM_BTN; idx++){
                 rawBtnValue = rawBtnValue >> 1;
                 int btnValue = rawBtnValue & 0x01;
                 for (ButtonCallback buttonCallback : btnCallbacks[idx]) {
@@ -38,14 +38,14 @@ public class InputThread implements Runnable{
                 }
             }
 
-//            int rawSwitchValue = readSwitchs(fds[SensorType.SWITCH.getSensorCode()]);
-//            for (int idx = 0; idx< 9; idx++){
-//                int switchValue = rawSwitchValue & 0x01;
-//                for (ButtonCallback buttonCallback : switchCallbacks[idx]) {
-//                    buttonCallback.onButtonClick(switchValue);
-//                }
-//                rawSwitchValue = rawSwitchValue >> 1;
-//            }
+            int rawSwitchValue = readSwitchs(fds[SensorType.SWITCH.getSensorCode()]);
+            for (int idx = 0; idx< Sensor.NUM_SWITCH; idx++){
+                int switchValue = rawSwitchValue & 0x01;
+                for (ButtonCallback buttonCallback : switchCallbacks[idx]) {
+                    buttonCallback.onButtonClick(switchValue);
+                }
+                rawSwitchValue = rawSwitchValue >> 1;
+            }
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {

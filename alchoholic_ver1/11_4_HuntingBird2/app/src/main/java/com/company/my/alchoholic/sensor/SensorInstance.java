@@ -24,12 +24,12 @@ public class SensorInstance implements Sensor{
     private void init(){
 
         status = SensorStatus.READY;
-        btnCallbacks = new LinkedList[9];
+        btnCallbacks = new LinkedList[Sensor.NUM_BTN];
         for (int i = 0; i < btnCallbacks.length; i++){
             btnCallbacks[i] = new LinkedList<>();
         }
 
-        switchCallbacks = new LinkedList[9];
+        switchCallbacks = new LinkedList[Sensor.NUM_SWITCH];
         for(int i = 0; i < switchCallbacks.length; i++){
             switchCallbacks[i] = new LinkedList<>();
         }
@@ -112,7 +112,7 @@ public class SensorInstance implements Sensor{
 
     @Override
     public void registerSwitchCallback(int switchNum, ButtonCallback callback) {
-
+        switchCallbacks[switchNum].add(callback);
     }
 
     @Override

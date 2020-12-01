@@ -90,7 +90,9 @@ Java_com_company_my_alchoholic_sensor_InputThread_readBtns(JNIEnv *env, jobject 
 }
 
 extern "C" JNIEXPORT jint JNICALL
-Java_com_company_my_alchoholic_sensor_InputThread_readSwitchs(JNIEnv *env, jobject thiz,
-                                                              jint switch_fd) {
-    // TODO: implement readSwitchs()
+Java_com_company_my_alchoholic_sensor_InputThread_readSwitchs(JNIEnv *env, jobject thiz, jint switch_fd) {
+    unsigned char byteData = 0;
+    read(switch_fd, &byteData, 1);
+    //__android_log_print(ANDROID_LOG_DEBUG, "Test", "switch input %d", byteData);
+    return byteData;
 }

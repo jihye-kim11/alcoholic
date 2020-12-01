@@ -3,7 +3,7 @@ package com.company.my.alchoholic.sensor;
 public interface Sensor {
 
     public static final int NUM_BTN = 9;
-    public static final int NUM_SWITCH = 9;
+    public static final int NUM_SWITCH = 8;
 
     /**
      * 센서 드라이버를 읽는 메소드
