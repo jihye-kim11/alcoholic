@@ -20,15 +20,16 @@
             android:orientation="horizontal">
 
             <Space
-                android:layout_width="570dp"
+                android:layout_width="630dp"
                 android:layout_height="100dp" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SOUND OFF"
-                android:textSize="23dp"/>
+            <ImageButton
+                android:id="@+id/sound"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@android:color/background_light"
+                app:srcCompat="@drawable/sound_on"
+                android:scaleType="centerInside"/>
         </LinearLayout>
 
         <Space
