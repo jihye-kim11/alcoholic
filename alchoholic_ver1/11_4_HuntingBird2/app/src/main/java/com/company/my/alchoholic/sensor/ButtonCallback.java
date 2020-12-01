@@ -2,6 +2,6 @@ package com.company.my.alchoholic.sensor;
 
 public interface ButtonCallback {
 
-    public void onButtonClick();
+    public void onButtonClick(int value);
 
 }

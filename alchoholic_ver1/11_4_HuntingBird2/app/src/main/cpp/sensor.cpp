@@ -31,7 +31,7 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_loadSensors(JNIEnv *env, jo
     buf[1] = open("/dev/7segment", O_RDWR);
     buf[2] = open("/dev/dotmatrix", O_RDWR);
     buf[3] = open("/dev/lcd", O_RDWR);
-    buf[4] = open("/dev/button", O_RDWR);
+    buf[4] = open("/dev/push", O_RDWR);
     buf[5] = open("/dev/motor", O_RDWR);
     buf[6] = open("/dev/buzzer", O_RDWR);
     buf[7] = open("/dev/switch", O_RDWR);
@@ -75,4 +75,22 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_motorSpin(JNIEnv *env, jobj
     unsigned char buf[4] = { 1, 1, static_cast<unsigned char>(speed), static_cast<unsigned char>(second) };
     write(motor_fd, buf, 4);
     return 0;
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_company_my_alchoholic_sensor_InputThread_readBtns(JNIEnv *env, jobject thiz, jint btn_fd) {
+    int result = 0;
+    unsigned char readData[9] = {0, };
+    read(btn_fd, readData, 9);
+    for (int i = 0; i < 9; i++){
+        result += readData[i];
+        result = result << 1;
+    }
+    return result;
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_company_my_alchoholic_sensor_InputThread_readSwitchs(JNIEnv *env, jobject thiz,
+                                                              jint switch_fd) {
+    // TODO: implement readSwitchs()
 }

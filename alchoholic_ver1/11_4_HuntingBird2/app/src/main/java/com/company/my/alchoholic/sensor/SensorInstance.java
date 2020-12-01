@@ -1,9 +1,17 @@
 package com.company.my.alchoholic.sensor;
 
+import android.widget.Button;
+
+import java.util.LinkedList;
+import java.util.List;
+
 public class SensorInstance implements Sensor{
 
     private SensorStatus status;
     private int[] fds = new int[8];
+    private InputThread inputThread;
+    private List<ButtonCallback>[] btnCallbacks;
+    private List<ButtonCallback>[] switchCallbacks;
 
     static {
         System.loadLibrary("sensor");
@@ -13,12 +21,26 @@ public class SensorInstance implements Sensor{
     private native int dotmSpin(int dotmFd);
     private native int motorSpin(int motorFd, int speed, int second);
 
+    private void init(){
+
+        status = SensorStatus.READY;
+        btnCallbacks = new LinkedList[9];
+        for (int i = 0; i < btnCallbacks.length; i++){
+            btnCallbacks[i] = new LinkedList<>();
+        }
+
+        switchCallbacks = new LinkedList[9];
+        for(int i = 0; i < switchCallbacks.length; i++){
+            switchCallbacks[i] = new LinkedList<>();
+        }
+
+
+    }
 
     @Override
     public void readySensor() {
         loadSensors(fds);
         boolean flag = true;
-        status = SensorStatus.START;
         for (int idx = 0; idx < fds.length; idx++) {
             System.out.println("idx " + idx + " : " + fds[idx]);
             if (fds[idx] == -1) {
@@ -27,6 +49,11 @@ public class SensorInstance implements Sensor{
         }
         if (flag) status = SensorStatus.START;
         else status = SensorStatus.FAIL;
+
+
+        inputThread = new InputThread(fds.clone(), btnCallbacks, switchCallbacks);
+        inputThread.start();
+        System.out.println("Run Thread");
     }
 
     @Override
@@ -40,9 +67,7 @@ public class SensorInstance implements Sensor{
     }
 
     @Override
-    public void runMotor(int direction, int speed) {
-
-    }
+    public void runMotor(int direction, int speed) {}
 
     @Override
     public void runMotor(int direction, int speed, int time) {
@@ -56,9 +81,7 @@ public class SensorInstance implements Sensor{
     }
 
     @Override
-    public void stopMotor() {
-
-    }
+    public void stopMotor() {}
 
     @Override
     public void startAnimatedDot(int code) {
@@ -72,22 +95,28 @@ public class SensorInstance implements Sensor{
     }
 
     @Override
-    public void stopAnimatedDot() {
+    public void stopAnimatedDot() {}
+
+    @Override
+    public void clearDot() {}
+
+    @Override
+    public void registerButtonCallback(int btnNum, ButtonCallback callback) {
+        btnCallbacks[btnNum].add(callback);
+    }
+
+    @Override
+    public void unregisterButtonCallback(int btnNum, ButtonCallback callback) {
 
     }
 
     @Override
-    public void clearDot() {
+    public void registerSwitchCallback(int switchNum, ButtonCallback callback) {
 
     }
 
     @Override
-    public void registerButtonCallback(ButtonCallback callback) {
-
-    }
-
-    @Override
-    public void unregisterButtonCallback(ButtonCallback callback) {
+    public void unregisterSwitchCallback(int switchNum, ButtonCallback callback) {
 
     }
 
@@ -95,9 +124,7 @@ public class SensorInstance implements Sensor{
     //
     // Singleton pattern
     //
-    private SensorInstance() {
-        this.status = SensorStatus.READY;
-    };
+    private SensorInstance() { init(); };
     private static SensorInstance instance;
     public static SensorInstance getInstance(){
         if (instance == null){

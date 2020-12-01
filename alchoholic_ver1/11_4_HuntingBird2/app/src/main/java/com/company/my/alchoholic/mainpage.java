@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.company.my.alchoholic.sensor.ButtonCallback;
 import com.company.my.alchoholic.sensor.Sensor;
 import com.company.my.alchoholic.sensor.SensorInstance;
 import com.company.my.alchoholic.sensor.SensorStatus;
@@ -26,7 +27,68 @@ public class mainpage extends AppCompatActivity {
             Toast.makeText(this.getApplicationContext(), "센서 리딩에 성공하였습니다.", Toast.LENGTH_LONG).show();
         }
 
+        sensor.registerButtonCallback(0, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("0 번!");
+            }
+        });
 
+        sensor.registerButtonCallback(1, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("1 번!");
+            }
+        });
+
+        sensor.registerButtonCallback(2, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("2 번!");
+            }
+        });
+
+        sensor.registerButtonCallback(3, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("3 번!");
+            }
+        });
+
+        sensor.registerButtonCallback(4, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("4 번!");
+            }
+        });
+
+        sensor.registerButtonCallback(5, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("5 번!");
+            }
+        });
+
+        sensor.registerButtonCallback(6, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("6 번!");
+            }
+        });
+
+        sensor.registerButtonCallback(7, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("7 번!");
+            }
+        });
+
+        sensor.registerButtonCallback(8, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("8 번!" + value);
+            }
+        });
 
         button1=(ImageButton)findViewById(R.id.imageButton);
         button1.setOnClickListener(new View.OnClickListener() {

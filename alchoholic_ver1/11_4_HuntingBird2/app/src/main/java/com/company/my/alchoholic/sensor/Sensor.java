@@ -2,6 +2,9 @@ package com.company.my.alchoholic.sensor;
 
 public interface Sensor {
 
+    public static final int NUM_BTN = 9;
+    public static final int NUM_SWITCH = 9;
+
     /**
      * 센서 드라이버를 읽는 메소드
      */
@@ -39,8 +42,11 @@ public interface Sensor {
     public void stopAnimatedDot();
     public void clearDot();
 
-    public void registerButtonCallback(ButtonCallback callback);
-    public void unregisterButtonCallback(ButtonCallback callback);
+    public void registerButtonCallback(int btnNum, ButtonCallback callback);
+    public void unregisterButtonCallback(int btnNum, ButtonCallback callback);
+
+    public void registerSwitchCallback(int switchNum, ButtonCallback callback);
+    public void unregisterSwitchCallback(int switchNum, ButtonCallback callback);
 
 
 }
