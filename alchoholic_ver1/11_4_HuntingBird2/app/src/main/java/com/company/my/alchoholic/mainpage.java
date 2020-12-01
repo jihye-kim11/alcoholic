@@ -17,25 +17,29 @@ public class mainpage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
+
+        final Sensor sensor = SensorInstance.getInstance();
+        sensor.readySensor();
+        if (sensor.getSensorStatus() == SensorStatus.FAIL) {
+            Toast.makeText(this.getApplicationContext(), "센서 리딩에 실패했습니다. 드라이버가 제대로 설치되었는지 확인해주세요.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this.getApplicationContext(), "센서 리딩에 성공하였습니다.", Toast.LENGTH_LONG).show();
+        }
+
+
+
         button1=(ImageButton)findViewById(R.id.imageButton);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                sensor.startAnimatedDot(0);
+                sensor.runMotor(0, 10, 10);
                 Intent intent = new Intent(getApplicationContext(), loading.class);
                 startActivity(intent);
                // Toast.makeText(getApplicationContext(),"메시지 알림.", Toast.LENGTH_SHORT).show(); // 짧게 표시
-
             }
         });
 
-        Sensor sensor = SensorInstance.getInstance();
-        sensor.readySensor();
-        if (sensor.getSensorStatus() == SensorStatus.FAIL) {
-            Toast.makeText(this.getApplicationContext(), "센서 리딩에 실패했습니다. 드라이버가 제대로 설치되었는지 확인해주세요.", Toast.LENGTH_LONG).show();
-            System.out.println("??>?");
-        } else {
-            Toast.makeText(this.getApplicationContext(), "센서 리딩에 성공하였습니다.", Toast.LENGTH_LONG).show();
-        }
+
     }
 }

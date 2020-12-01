@@ -10,6 +10,8 @@ public class SensorInstance implements Sensor{
     }
     private native int loadSensors(int[] arr);
     private native int unloadSensors(int[] arr);
+    private native int dotmSpin(int dotmFd);
+    private native int motorSpin(int motorFd, int speed, int second);
 
 
     @Override
@@ -44,7 +46,13 @@ public class SensorInstance implements Sensor{
 
     @Override
     public void runMotor(int direction, int speed, int time) {
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("MOTOR On");
+                motorSpin(fds[SensorType.STEP_MOTOR.getSensorCode()], 10, 5);
+            }
+        }).start();
     }
 
     @Override
@@ -54,7 +62,13 @@ public class SensorInstance implements Sensor{
 
     @Override
     public void startAnimatedDot(int code) {
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("DOTM Animation On");
+                dotmSpin(fds[SensorType.DOT_MATRIX.getSensorCode()]);
+            }
+        }).start();
     }
 
     @Override
