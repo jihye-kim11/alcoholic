@@ -8,6 +8,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.company.my.alchoholic.sensor.Sensor;
+import com.company.my.alchoholic.sensor.SensorInstance;
 
 public class loading extends AppCompatActivity {
 
@@ -21,6 +23,9 @@ public class loading extends AppCompatActivity {
         Glide.with(this).load(R.drawable.loading).into(gifImage);
 
         //모터 돌리기,dot 나오게 하기
+        final Sensor sensor = SensorInstance.getInstance();
+        sensor.startAnimatedDot(0);
+        sensor.runMotor(0, 10, 10);
 
         new Handler().postDelayed(new Runnable()
         {
@@ -32,5 +37,6 @@ public class loading extends AppCompatActivity {
                 finish();
             }
         }, 5000);//5초 딜레이를 준 후 시작
+
 }
 }
