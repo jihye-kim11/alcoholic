@@ -97,6 +97,13 @@ public class mainpage extends AppCompatActivity {
             }
         });
 
+        sensor.registerSwitchCallback(1, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if(value == 1) System.out.println("0번!");
+            }
+        });
+
         button1=(ImageButton)findViewById(R.id.imageButton);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
