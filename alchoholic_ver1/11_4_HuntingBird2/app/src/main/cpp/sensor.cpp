@@ -61,10 +61,14 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_unloadSensors(JNIEnv *env, 
 extern "C" JNIEXPORT jint JNICALL
 Java_com_company_my_alchoholic_sensor_SensorInstance_dotmSpin(JNIEnv *env, jobject thiz, jint dotm_fd) {
     if (dotm_fd < 0) return -1;
+    __android_log_print(ANDROID_LOG_DEBUG, "Test", "enter dotmSpin");
     unsigned char buf[6] = { 0, 1, 2, 3, 4, 5 };
-    for (int j = 0; j < 1; j ++){
+    for (int j = 0; j < 2; j ++){
         write(dotm_fd, buf, 6);
-        for (int i = 0; i < 40; i++) ioctl(dotm_fd, DOTM_SPIN, NULL, _IOC_SIZE(DOTM_SPIN));
+        for (int i = 0; i < 40; i++) {
+            ioctl(dotm_fd, DOTM_SPIN, NULL, _IOC_SIZE(DOTM_SPIN));
+            usleep(1000*50);
+        }
     }
     ioctl(dotm_fd, DOTM_SET_CLEAR, NULL, _IOC_SIZE(DOTM_SPIN));
     return 0;
