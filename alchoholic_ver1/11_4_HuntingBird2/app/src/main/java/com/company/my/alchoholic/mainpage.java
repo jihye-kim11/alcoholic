@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.company.my.alchoholic.sensor.ButtonCallback;
@@ -14,11 +15,12 @@ import com.company.my.alchoholic.sensor.SensorStatus;
 
 public class mainpage extends AppCompatActivity {
     private ImageButton button1;
+    ImageView imageview = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
-
+        imageview = (ImageView)findViewById(R.id.sound);
         final Sensor sensor = SensorInstance.getInstance();
         sensor.readySensor();
         if (sensor.getSensorStatus() == SensorStatus.FAIL) {
@@ -93,7 +95,11 @@ public class mainpage extends AppCompatActivity {
         sensor.registerSwitchCallback(0, new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
-                if(value == 1) System.out.println("0번!");
+                if(value == 1) {
+                    imageview.setImageResource(R.drawable.sound_off);
+                    System.out.println("0번 딥스위치");}
+                else{imageview.setImageResource(R.drawable.sound_on);}
+
             }
         });
 
@@ -105,7 +111,6 @@ public class mainpage extends AppCompatActivity {
                 sensor.runMotor(0, 10, 10);
                 Intent intent = new Intent(getApplicationContext(), loading.class);
                 startActivity(intent);
-               // Toast.makeText(getApplicationContext(),"메시지 알림.", Toast.LENGTH_SHORT).show(); // 짧게 표시
             }
         });
 

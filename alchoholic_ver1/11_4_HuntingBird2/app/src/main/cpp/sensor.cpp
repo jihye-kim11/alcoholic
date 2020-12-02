@@ -70,7 +70,8 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_dotmSpin(JNIEnv *env, jobje
     return 0;
 }
 extern "C" JNIEXPORT jint JNICALL
-Java_com_company_my_alchoholic_sensor_SensorInstance_motorSpin(JNIEnv *env, jobject thiz, jint motor_fd, jint speed, jint second) {
+Java_com_company_my_alchoholic_sensor_SensorInstance_motorSpin
+(JNIEnv *env, jobject thiz, jint motor_fd, jint speed, jint second) {
 
     unsigned char buf[4] = { 1, 1, static_cast<unsigned char>(speed), static_cast<unsigned char>(second) };
     write(motor_fd, buf, 4);
