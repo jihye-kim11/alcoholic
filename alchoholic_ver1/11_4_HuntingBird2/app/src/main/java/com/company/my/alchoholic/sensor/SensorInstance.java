@@ -107,7 +107,7 @@ public class SensorInstance implements Sensor{
 
     @Override
     public void unregisterButtonCallback(int btnNum, ButtonCallback callback) {
-
+        btnCallbacks[btnNum].remove(callback);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class SensorInstance implements Sensor{
 
     @Override
     public void unregisterSwitchCallback(int switchNum, ButtonCallback callback) {
-
+        switchCallbacks[switchNum].remove(callback);
     }
 
 
