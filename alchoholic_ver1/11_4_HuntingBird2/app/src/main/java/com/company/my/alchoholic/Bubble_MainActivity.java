@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 public class Bubble_MainActivity extends AppCompatActivity {
+    myDBAdapter dbAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +38,29 @@ public class Bubble_MainActivity extends AppCompatActivity {
                 // android.os.Process.killProcess(android.os.Process.myPid());
             }
         });
-
+        dbAdapter = new myDBAdapter(this);
         new Handler().postDelayed(new Runnable()
         {
             @Override
             public void run()
             {
-                Intent intent = new Intent(getApplicationContext(), select.class);
-                startActivity(intent);
-                finish();
+                System.out.println("점수");
+
+                dbAdapter.open();
+                String score = dbAdapter.Open();
+                dbAdapter.close();
+                if(score=="1"){
+                    Intent intent = new Intent(getApplicationContext(), success.class);
+                    startActivity(intent);
+                    finish();}
+                else{
+                    Intent intent = new Intent(getApplicationContext(), fail.class);
+                    startActivity(intent);
+                    finish();}
+
             }
         }, 10000);//10초동안 진행
+
     } // onCreate
 
     @Override

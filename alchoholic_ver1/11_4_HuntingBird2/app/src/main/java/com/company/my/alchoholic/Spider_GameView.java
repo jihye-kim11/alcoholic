@@ -173,6 +173,7 @@ public class Spider_GameView extends View {
                 killCount++;
                 score += mFly.get(i).score;
                 //led 1개씩 켜기
+                System.out.println(killCount+"led 켜기");
                 // 나비 초기화
                 mFly.get(i).init();
 
