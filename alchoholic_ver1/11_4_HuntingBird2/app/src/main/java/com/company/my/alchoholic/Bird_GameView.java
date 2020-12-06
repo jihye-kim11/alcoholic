@@ -67,6 +67,7 @@ public class Bird_GameView extends View {
         final Sensor sensor = SensorInstance.getInstance();
         sensor.readySensor();
 
+        /*
         sensor.registerButtonCallback(6, new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
@@ -90,7 +91,7 @@ public class Bird_GameView extends View {
                 fireBullet( 100, 100 );   // 발사
             }
         });
-
+*/
         // 롤리팝 이전 버전인가?
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             mSound = new SoundPool(5, AudioManager.STREAM_MUSIC, 1);
