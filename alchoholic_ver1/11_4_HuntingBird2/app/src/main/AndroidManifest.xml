@@ -11,15 +11,18 @@
         <activity android:name=".fail"></activity>
         <activity android:name=".success" />
         <activity android:name=".spider_info" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".bubble_info">
         </activity>
-        <activity android:name=".bird_info" />
+        <activity android:name=".bird_info" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
         <activity android:name=".loading" />
         <activity android:name=".select" />
         <activity android:name=".mainpage" />

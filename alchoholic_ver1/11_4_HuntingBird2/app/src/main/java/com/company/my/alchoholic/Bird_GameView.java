@@ -1,6 +1,7 @@
 package com.company.my.alchoholic;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,6 +15,10 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.company.my.alchoholic.sensor.ButtonCallback;
+import com.company.my.alchoholic.sensor.Sensor;
+import com.company.my.alchoholic.sensor.SensorInstance;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +62,34 @@ public class Bird_GameView extends View {
         mPlayer = MediaPlayer.create(context, R.raw.rondo);
         mPlayer.setLooping(true);
         mPlayer.start();
+        
+        //센서
+        final Sensor sensor = SensorInstance.getInstance();
+        sensor.readySensor();
+
+        sensor.registerButtonCallback(6, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("6 번 클릭");
+                fireBullet( 500, 100 );   // 발사
+            }
+        });
+
+        sensor.registerButtonCallback(7, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("7 번 클릭");
+                fireBullet( 300, 100 );   // 발사
+            }
+        });
+
+        sensor.registerButtonCallback(8, new ButtonCallback() {
+            @Override
+            public void onButtonClick(int value) {
+                if (value==1)System.out.println("8 번 클릭" + value);
+                fireBullet( 100, 100 );   // 발사
+            }
+        });
 
         // 롤리팝 이전 버전인가?
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -178,6 +211,8 @@ public class Bird_GameView extends View {
     // 총알 발사 <-- TouchEvent
     //---------------------------------
     private void fireBullet (float x, float y) {
+        //터치된 포인트 가져와서 그 포인트에 해당하는 참새 kill
+        //버튼 클릭시 그 버튼에 해당하는 넓이 가져오고 해당 영역에 있는 참새 kill
         boolean isHit = false;
         mSound.play(soundId, 1, 1, 1, 0, 1);
 

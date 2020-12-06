@@ -111,6 +111,13 @@ public class Bird_Sparrow {
         rect.set(x - w, y - h, x + w, y + h);
 
         // 터치 위치가 참새 내부인가?
+        System.out.println("클릭 가로: "+px);
+        System.out.println("클릭 세로: "+py);
+        System.out.println("새 가로: "+w);
+        System.out.println("새 세로: "+h);
+        System.out.println("새위치 가로: "+x);
+        System.out.println("새위치 세로: "+y);
+        //터치에 해당하는 넓이에 참새가 있는가? 로 변경
         float dist = (px - x) * (px - x) + (py - y) * (py - y);
         if (dist < h * h * 0.7f) {
             dir.y = speed;
@@ -120,6 +127,28 @@ public class Bird_Sparrow {
             ang = 180;
         }
 
+        if(px<200){
+            if(x<200){
+                    dir.y = speed;
+                    dir.x = 0;
+                    // 추락시 180도 회전
+                    ang = 180;}
+
+        }
+        else if((200<=px)& (px<400)){
+            if((200<=px)& (px<400)){
+                dir.y = speed;
+                dir.x = 0;
+                // 추락시 180도 회전
+                ang = 180;}
+        }
+        else{
+            if(400<=px){
+                dir.y = speed;
+                dir.x = 0;
+                // 추락시 180도 회전
+                ang = 180;}
+        }
         return (dir.x == 0);
     }
 
