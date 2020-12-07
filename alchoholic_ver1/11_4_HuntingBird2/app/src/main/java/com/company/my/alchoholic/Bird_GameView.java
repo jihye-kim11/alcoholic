@@ -66,7 +66,7 @@ public class Bird_GameView extends View {
         
         //센서
         final Sensor sensor = SensorInstance.getInstance();
-        sensor.readySensor();
+       // sensor.readySensor();
 
         dbAdapter = new myDBAdapter(context);
 
@@ -168,7 +168,7 @@ public class Bird_GameView extends View {
 
         // 점수 출력
         paint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText("Hit : " + hit, 100, 100, paint);
+        canvas.drawText("score : " + hit, 100, 100, paint);
 
         paint.setTextAlign(Paint.Align.RIGHT);
         canvas.drawText("Miss : " + miss, w - 100, 100, paint);
@@ -228,7 +228,7 @@ public class Bird_GameView extends View {
             }
         }
 
-        hit = isHit ? hit + 1 : hit;
+        hit = isHit ? hit + 100 : hit;
         miss = isHit ? miss : miss + 1;
         //여기다가 7segment 추가하여 score 변동할때마다 출력하기!
         System.out.println(hit+"수만큼 hit");
@@ -236,7 +236,7 @@ public class Bird_GameView extends View {
         dbAdapter.open();
         dbAdapter.clear();
         //sqlDB.execSQL("INSERT INTO groupTBL VALUES ('" + user_id + "');");
-        if(hit>=8){
+        if(hit>=1000){
             dbAdapter.insert("1");
             System.out.println("1 접근"); }
         else{dbAdapter.insert("0");
