@@ -71,5 +71,27 @@ public interface Sensor {
      */
     public void unregisterSwitchCallback(int switchNum, ButtonCallback callback);
 
+    /**
+     * 해당하는 숫자를 입력. 만약 해당 자리에 9를 초과하게 되면, 9로 나오게 된다.
+     * @param num
+     */
+    public void show7Seg(int num);
+    
+    /**
+     * 각각 해당하는 자리에 숫자를 입력. 만약 해당 자리에 9를 초과하게 되면, 9로 나오게 된다.
+     * @param digit1
+     * @param digit2
+     * @param digit3
+     * @param digit4
+     */
+    public void show7Seg(int digit1, int digit2, int digit3, int digit4);
 
+    /**
+     * 해당 자리에 해당 숫자를 입력. 만약 해당 자리에 9를 초과하게 되면, 9로 나오게 된다.
+     * @param pos
+     * @param digit
+     */
+    public void show7Seg(int pos, int digit);
+    
+    
 }

@@ -136,4 +136,16 @@ Java_com_company_my_alchoholic_sensor_InputThread_readSwitchs(JNIEnv *env, jobje
     read(switch_fd, &byteData, 1);
     //__android_log_print(ANDROID_LOG_DEBUG, "Test", "switch input %d", byteData);
     return byteData;
+}extern "C"
+JNIEXPORT jint JNICALL
+Java_com_company_my_alchoholic_sensor_SensorInstance_show7Segment(JNIEnv *env, jobject thiz, jint seg_fd, jint d1, jint d2, jint d3, jint d4) {
+    if (seg_fd < 0) return -1;
+    unsigned char bytevalue[4] = {
+            static_cast<unsigned char>(d1),
+            static_cast<unsigned char>(d2),
+            static_cast<unsigned char>(d3),
+            static_cast<unsigned char>(d4)
+    };
+    write(seg_fd, bytevalue, 4);
+    return 0;
 }

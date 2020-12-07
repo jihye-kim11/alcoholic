@@ -24,6 +24,7 @@ public class SensorInstance implements Sensor{
     private native int dotmPop(int dotmFd);
     private native int dotmBomb(int dotmFd);
     private native int motorSpin(int motorFd, int speed, int second);
+    private native int show7Segment(int segFd, int d1, int d2, int d3, int d4);
 
     private void init(){
 
@@ -126,6 +127,39 @@ public class SensorInstance implements Sensor{
     @Override
     public void unregisterSwitchCallback(int switchNum, ButtonCallback callback) {
         switchCallbacks.get(switchNum).remove(callback);
+    }
+
+    private int num7Seg[] = { 0, 0, 0, 0 };
+    private int commit7Segment(){
+        for (int idx = 0; idx < num7Seg.length; idx++) num7Seg[idx] = num7Seg[idx] > 9 ? 9 : num7Seg[idx];
+        return show7Segment(fds[SensorType.SEVEN_SEG.getSensorCode()], num7Seg[0], num7Seg[1], num7Seg[2], num7Seg[3]);
+    }
+
+    @Override
+    public void show7Seg(int num) {
+        num7Seg[0] = num / 1000;
+        num %= 1000;
+        num7Seg[1] = num / 100;
+        num %= 100;
+        num7Seg[2] = num / 10;
+        num %= 10;
+        num7Seg[3] = num;
+        commit7Segment();
+    }
+
+    @Override
+    public void show7Seg(int digit1, int digit2, int digit3, int digit4) {
+        num7Seg[0] = digit1;
+        num7Seg[1] = digit2;
+        num7Seg[2] = digit3;
+        num7Seg[3] = digit4;
+        commit7Segment();
+    }
+
+    @Override
+    public void show7Seg(int pos, int digit) {
+        num7Seg[pos] = digit;
+        commit7Segment();
     }
 
 
