@@ -41,10 +41,34 @@ public interface Sensor {
     public void stopAnimatedDot();
     public void clearDot();
 
+    /**
+     * 버튼 콜백을 등록하는 메소드. 오른쪽 위부터 876, 543, 321 이다.
+     * @see ButtonCallback
+     * @param btnNum 몇 번 버튼인지
+     * @param callback
+     */
     public void registerButtonCallback(int btnNum, ButtonCallback callback);
+
+    /**
+     * 버튼 콜백을 해체하는 메소드. 반드시 호출해줘야 버그가 안난다.
+     * @param btnNum
+     * @param callback
+     */
     public void unregisterButtonCallback(int btnNum, ButtonCallback callback);
 
+    /**
+     * 스위치 콜백을 등록하는 메소드. 특정 시간마다 계속 호출된다.
+     * @see ButtonCallback
+     * @param switchNum
+     * @param callback
+     */
     public void registerSwitchCallback(int switchNum, ButtonCallback callback);
+
+    /**
+     * 스위치 콜백을 해체하는 메소드.
+     * @param switchNum
+     * @param callback
+     */
     public void unregisterSwitchCallback(int switchNum, ButtonCallback callback);
 
 
