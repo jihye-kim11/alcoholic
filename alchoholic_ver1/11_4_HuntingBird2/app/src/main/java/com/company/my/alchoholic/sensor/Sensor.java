@@ -35,8 +35,7 @@ public interface Sensor {
     /**
      * 도트 매트릭스에 애니메이션을 보여주는 메소드.
      * code에 따라 다양한 애니메이션을 보여준다.
-     * 현재는 무슨 code를 넣든 돌아간다 애니메이션만 호출한다.
-     * @param code
+     * @param code 0 은 돌아간다, 1은 팝, 2는 폭탄 애니메이션이다.
      */
     public void startAnimatedDot(int code);
     public void stopAnimatedDot();
