@@ -1,13 +1,14 @@
 package com.company.my.alchoholic.sensor;
 
 import java.util.List;
+import java.util.Vector;
 
 public class InputThread implements Runnable{
 
     private Thread thread;
     private int[] fds;
-    private List<ButtonCallback>[] btnCallbacks;
-    private List<ButtonCallback>[] switchCallbacks;
+    private Vector<Vector<ButtonCallback>> btnCallbacks;
+    private Vector<Vector<ButtonCallback>> switchCallbacks;
 
     static {
         System.loadLibrary("sensor");
@@ -15,7 +16,7 @@ public class InputThread implements Runnable{
     private native int readBtns(int btnFd);
     private native int readSwitchs(int switchFd);
 
-    public InputThread(int[] fds, List<ButtonCallback>[] btnCallbacks, List<ButtonCallback>[] switchCallbacks){
+    public InputThread(int[] fds, Vector<Vector<ButtonCallback>> btnCallbacks, Vector<Vector<ButtonCallback>> switchCallbacks){
         this.thread = new Thread(this, "InputThread");
         this.fds = fds;
         this.btnCallbacks = btnCallbacks;
@@ -33,7 +34,7 @@ public class InputThread implements Runnable{
             for (int idx = 0; idx< Sensor.NUM_BTN; idx++){
                 rawBtnValue = rawBtnValue >> 1;
                 int btnValue = rawBtnValue & 0x01;
-                for (ButtonCallback buttonCallback : btnCallbacks[idx]) {
+                for (ButtonCallback buttonCallback : btnCallbacks.get(idx)) {
                     buttonCallback.onButtonClick(btnValue);
                 }
             }
@@ -41,7 +42,7 @@ public class InputThread implements Runnable{
             int rawSwitchValue = readSwitchs(fds[SensorType.SWITCH.getSensorCode()]);
             for (int idx = 0; idx< Sensor.NUM_SWITCH; idx++){
                 int switchValue = rawSwitchValue & 0x01;
-                for (ButtonCallback buttonCallback : switchCallbacks[idx]) {
+                for (ButtonCallback buttonCallback : switchCallbacks.get(idx)) {
                     buttonCallback.onButtonClick(switchValue);
                 }
                 rawSwitchValue = rawSwitchValue >> 1;

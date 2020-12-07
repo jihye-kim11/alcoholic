@@ -2,16 +2,18 @@ package com.company.my.alchoholic.sensor;
 
 import android.widget.Button;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 public class SensorInstance implements Sensor{
 
     private SensorStatus status;
     private int[] fds = new int[8];
     private InputThread inputThread;
-    private List<ButtonCallback>[] btnCallbacks;
-    private List<ButtonCallback>[] switchCallbacks;
+    private Vector<Vector<ButtonCallback>> btnCallbacks;
+    private Vector<Vector<ButtonCallback>> switchCallbacks;
 
     static {
         System.loadLibrary("sensor");
@@ -24,14 +26,14 @@ public class SensorInstance implements Sensor{
     private void init(){
 
         status = SensorStatus.READY;
-        btnCallbacks = new LinkedList[Sensor.NUM_BTN];
-        for (int i = 0; i < btnCallbacks.length; i++){
-            btnCallbacks[i] = new LinkedList<>();
+        btnCallbacks = new Vector<>();
+        for (int i = 0; i < Sensor.NUM_BTN; i++){
+            btnCallbacks.add(new Vector<ButtonCallback>());
         }
 
-        switchCallbacks = new LinkedList[Sensor.NUM_SWITCH];
-        for(int i = 0; i < switchCallbacks.length; i++){
-            switchCallbacks[i] = new LinkedList<>();
+        switchCallbacks = new Vector<>();
+        for(int i = 0; i < Sensor.NUM_SWITCH; i++){
+            switchCallbacks.add(new Vector<ButtonCallback>());
         }
 
 
@@ -71,13 +73,15 @@ public class SensorInstance implements Sensor{
 
     @Override
     public void runMotor(int direction, int speed, int time) {
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 System.out.println("MOTOR On");
                 motorSpin(fds[SensorType.STEP_MOTOR.getSensorCode()], 10, 5);
             }
-        }).start();
+        });
+        thread.setPriority(Thread.MAX_PRIORITY);
+        thread.start();
     }
 
     @Override
@@ -102,22 +106,22 @@ public class SensorInstance implements Sensor{
 
     @Override
     public void registerButtonCallback(int btnNum, ButtonCallback callback) {
-        btnCallbacks[btnNum].add(callback);
+        btnCallbacks.get(btnNum).add(callback);
     }
 
     @Override
     public void unregisterButtonCallback(int btnNum, ButtonCallback callback) {
-        btnCallbacks[btnNum].remove(callback);
+        btnCallbacks.get(btnNum).remove(callback);
     }
 
     @Override
     public void registerSwitchCallback(int switchNum, ButtonCallback callback) {
-        switchCallbacks[switchNum].add(callback);
+        switchCallbacks.get(switchNum).add(callback);
     }
 
     @Override
     public void unregisterSwitchCallback(int switchNum, ButtonCallback callback) {
-        switchCallbacks[switchNum].remove(callback);
+        switchCallbacks.get(switchNum).remove(callback);
     }
 
 
