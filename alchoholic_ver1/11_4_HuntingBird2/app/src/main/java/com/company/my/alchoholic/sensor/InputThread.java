@@ -39,6 +39,12 @@ public class InputThread implements Runnable{
                 }
             }
 
+            try {
+                Thread.sleep(25);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             int rawSwitchValue = readSwitchs(fds[SensorType.SWITCH.getSensorCode()]);
             for (int idx = 0; idx< Sensor.NUM_SWITCH; idx++){
                 int switchValue = rawSwitchValue & 0x01;
@@ -48,7 +54,7 @@ public class InputThread implements Runnable{
                 rawSwitchValue = rawSwitchValue >> 1;
             }
             try {
-                Thread.sleep(50);
+                Thread.sleep(25);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
