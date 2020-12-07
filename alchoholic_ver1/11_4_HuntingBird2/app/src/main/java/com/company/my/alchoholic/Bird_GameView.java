@@ -47,7 +47,8 @@ public class Bird_GameView extends View {
 
     // 참새
     private List<Bird_Sparrow> mSparrow;
-
+    //sqlite
+    myDBAdapter dbAdapter;
     //--------------------------------
     // 생성자
     //---------------------------------
@@ -67,31 +68,34 @@ public class Bird_GameView extends View {
         final Sensor sensor = SensorInstance.getInstance();
         sensor.readySensor();
 
-        /*
+        dbAdapter = new myDBAdapter(context);
+
         sensor.registerButtonCallback(6, new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
-                if (value==1)System.out.println("6 번 클릭");
-                fireBullet( 500, 100 );   // 발사
+                if (value==1){System.out.println("6 번 클릭");
+                fireBullet( 500, 100 );}   // 발사
             }
         });
 
         sensor.registerButtonCallback(7, new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
-                if (value==1)System.out.println("7 번 클릭");
-                fireBullet( 300, 100 );   // 발사
+                if (value==1){System.out.println("7 번 클릭");
+                fireBullet( 300, 100 );}   // 발사
             }
         });
 
         sensor.registerButtonCallback(8, new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
-                if (value==1)System.out.println("8 번 클릭" + value);
-                fireBullet( 100, 100 );   // 발사
+                if (value==1) {
+                    System.out.println("8 번 클릭" + value);
+                    fireBullet(100, 100);
+                }// 발사
             }
         });
-*/
+
         // 롤리팝 이전 버전인가?
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             mSound = new SoundPool(5, AudioManager.STREAM_MUSIC, 1);
@@ -226,6 +230,18 @@ public class Bird_GameView extends View {
 
         hit = isHit ? hit + 1 : hit;
         miss = isHit ? miss : miss + 1;
+        //여기다가 7segment 추가하여 score 변동할때마다 출력하기!
+        System.out.println(hit+"수만큼 hit");
+        //점수 db에 저장
+        dbAdapter.open();
+        dbAdapter.clear();
+        //sqlDB.execSQL("INSERT INTO groupTBL VALUES ('" + user_id + "');");
+        if(hit>=8){
+            dbAdapter.insert("1");
+            System.out.println("1 접근"); }
+        else{dbAdapter.insert("0");
+            System.out.println("0 접근"); }
+        dbAdapter.close();
     }
 
     //--------------------------------

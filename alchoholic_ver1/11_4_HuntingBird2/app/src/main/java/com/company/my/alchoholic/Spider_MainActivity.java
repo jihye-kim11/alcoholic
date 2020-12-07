@@ -30,7 +30,7 @@ public class Spider_MainActivity extends AppCompatActivity {
                 dbAdapter.open();
                 String score = dbAdapter.Open();
                 dbAdapter.close();
-                if(score=="1"){
+                if(score.equals("1")){
                     Intent intent = new Intent(getApplicationContext(), success.class);
                     startActivity(intent);
                     finish();}
