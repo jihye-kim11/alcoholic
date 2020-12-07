@@ -14,12 +14,12 @@ import com.company.my.alchoholic.sensor.SensorInstance;
 public class select extends AppCompatActivity {
     private ImageButton btn1,btn2,btn3,btn4;
 
+    private ButtonCallback btnCallback6, btnCallback7, btnCallback8;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
-        final Sensor sensor = SensorInstance.getInstance();
-        sensor.readySensor();
         btn1=(ImageButton)findViewById(R.id.button1);
         btn1.setOnClickListener(new  View.OnClickListener() {//슈팅버블
             @Override
@@ -55,31 +55,56 @@ public class select extends AppCompatActivity {
             }
         });
 
-        sensor.registerButtonCallback(6, new ButtonCallback() {
+        btnCallback6 = new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
-                if (value==1)System.out.println("6 번!");
-                Intent intent = new Intent(getApplicationContext(), spider_info.class);
-                startActivity(intent);
+                if (value==1) {
+                    System.out.println("6 번!");
+                    Intent intent = new Intent(getApplicationContext(), spider_info.class);
+                    startActivity(intent);
+                }
             }
-        });
+        };
 
-        sensor.registerButtonCallback(7, new ButtonCallback() {
+        btnCallback7 = new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
-                if (value==1)System.out.println("7 번!");
-                Intent intent = new Intent(getApplicationContext(), bird_info.class);
-                startActivity(intent);
+                if (value==1) {
+                    System.out.println("7 번!");
+                    Intent intent = new Intent(getApplicationContext(), bird_info.class);
+                    startActivity(intent);
+                }
             }
-        });
+        };
 
-        sensor.registerButtonCallback(8, new ButtonCallback() {
+        btnCallback8 = new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
-                if (value==1)System.out.println("8 번!" + value);
-                Intent intent = new Intent(getApplicationContext(), bubble_info.class);
-                startActivity(intent);
+                if (value==1) {
+                    System.out.println("8 번!" + value);
+                    Intent intent = new Intent(getApplicationContext(), bubble_info.class);
+                    startActivity(intent);
+                }
             }
-        });
+        };
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Sensor sensor = SensorInstance.getInstance();
+        sensor.registerButtonCallback(6, btnCallback6);
+        sensor.registerButtonCallback(7, btnCallback7);
+        sensor.registerButtonCallback(8, btnCallback8);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Sensor sensor = SensorInstance.getInstance();
+        sensor.unregisterButtonCallback(6, btnCallback6);
+        sensor.unregisterButtonCallback(7, btnCallback7);
+        sensor.unregisterButtonCallback(8, btnCallback8);
     }
 }
