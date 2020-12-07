@@ -22,7 +22,10 @@ public class loading extends AppCompatActivity {
         GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(gif);
         Glide.with(this).load(R.drawable.loading).into(gifImage);
 
-        sensor.runMotor( 1, 10, 5);
+        int randomTime = (int)(Math.random() * 5) + 5;
+        System.out.println("radom time " + randomTime);
+
+        sensor.runMotor( 1, 10, randomTime);
         sensor.startAnimatedDot(0);
 
         new Handler().postDelayed(new Runnable()
@@ -34,7 +37,7 @@ public class loading extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 5000);//5초 딜레이를 준 후 시작
+        }, randomTime * 1000);//5초 딜레이를 준 후 시작
 
 }
 }

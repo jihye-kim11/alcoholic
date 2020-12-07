@@ -72,12 +72,12 @@ public class SensorInstance implements Sensor{
     public void runMotor(int direction, int speed) {}
 
     @Override
-    public void runMotor(int direction, int speed, int time) {
+    public void runMotor(int direction, final int speed, final int time) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 System.out.println("MOTOR On");
-                motorSpin(fds[SensorType.STEP_MOTOR.getSensorCode()], 10, 5);
+                motorSpin(fds[SensorType.STEP_MOTOR.getSensorCode()], speed, time);
             }
         });
         thread.setPriority(Thread.MAX_PRIORITY);
