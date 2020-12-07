@@ -25,6 +25,7 @@ public class SensorInstance implements Sensor{
     private native int dotmBomb(int dotmFd);
     private native int motorSpin(int motorFd, int speed, int second);
     private native int show7Segment(int segFd, int d1, int d2, int d3, int d4);
+    private native int showLed(int ledFd, int amount);
 
     private void init(){
 
@@ -160,6 +161,13 @@ public class SensorInstance implements Sensor{
     public void show7Seg(int pos, int digit) {
         num7Seg[pos] = digit;
         commit7Segment();
+    }
+
+    @Override
+    public void showLed(int amount) {
+        if (0 > amount) amount = 0;
+        if (amount > 8) amount = 8;
+        showLed(fds[SensorType.LED.getSensorCode()], amount);
     }
 
 

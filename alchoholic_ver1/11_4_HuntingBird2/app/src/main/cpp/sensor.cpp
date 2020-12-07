@@ -136,8 +136,9 @@ Java_com_company_my_alchoholic_sensor_InputThread_readSwitchs(JNIEnv *env, jobje
     read(switch_fd, &byteData, 1);
     //__android_log_print(ANDROID_LOG_DEBUG, "Test", "switch input %d", byteData);
     return byteData;
-}extern "C"
-JNIEXPORT jint JNICALL
+}
+
+extern "C" JNIEXPORT jint JNICALL
 Java_com_company_my_alchoholic_sensor_SensorInstance_show7Segment(JNIEnv *env, jobject thiz, jint seg_fd, jint d1, jint d2, jint d3, jint d4) {
     if (seg_fd < 0) return -1;
     unsigned char bytevalue[4] = {
@@ -147,5 +148,25 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_show7Segment(JNIEnv *env, j
             static_cast<unsigned char>(d4)
     };
     write(seg_fd, bytevalue, 4);
+    return 0;
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_company_my_alchoholic_sensor_SensorInstance_showLed(JNIEnv *env, jobject thiz, jint led_fd, jint amount) {
+    if (led_fd < 0) return -1;
+    unsigned char data = static_cast<unsigned char>(amount);
+    int i,pow, j, num;
+    if(data != 0) {
+        for(i=0; i<data; i++) {
+            pow = 1;
+            for(j=0;j<i;j++) {
+                pow *= 2;
+            }
+            num += pow;
+        }
+        data = num;
+    }
+    unsigned char bytevalue[1] = { data };
+    write(led_fd, bytevalue, 1);
     return 0;
 }

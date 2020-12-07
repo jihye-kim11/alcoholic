@@ -92,6 +92,10 @@ public interface Sensor {
      * @param digit
      */
     public void show7Seg(int pos, int digit);
-    
-    
+
+    /**
+     * 개수 만큼 led를 켜주는 메소드 0 보다 작으면 0, 8보다 크면 8로 처리된다.
+     * @param amount
+     */
+    public void showLed(int amount);
 }
