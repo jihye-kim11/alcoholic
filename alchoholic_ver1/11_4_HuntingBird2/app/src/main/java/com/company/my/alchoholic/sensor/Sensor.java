@@ -98,4 +98,18 @@ public interface Sensor {
      * @param amount
      */
     public void showLed(int amount);
+
+    /**
+     * lcd에 띄우는 메소드
+     * @param line1 윗줄
+     * @param line2 아랫줄
+     */
+    public void showLcd(String line1, String line2);
+
+    /**
+     * lcd에 각 줄에 띄우는 메소드
+     * @param lineNum 0이 윗줄, 1이 아랫줄
+     * @param line
+     */
+    public void showLcd(int lineNum, String line);
 }

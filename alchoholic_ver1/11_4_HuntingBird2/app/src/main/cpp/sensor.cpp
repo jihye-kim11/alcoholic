@@ -6,6 +6,7 @@
 #include <sys/ioctl.h>
 #include <android/log.h>
 #include <sys/ioctl.h>
+#include <string.h>
 //
 // Created by jomingyu on 2020-11-30.
 //
@@ -168,5 +169,25 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_showLed(JNIEnv *env, jobjec
     }
     unsigned char bytevalue[1] = { data };
     write(led_fd, bytevalue, 1);
+    return 0;
+}
+
+#define LCD_MAGIC 0xBD
+#define LCD_SET_CURSOR_POS _IOW(LCD_MAGIC,0,int)
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_company_my_alchoholic_sensor_SensorInstance_showLcd(JNIEnv *env, jobject thiz, jint lcd_fd, jstring jl1, jstring jl2) {
+    if (lcd_fd < 0) return -1;
+    int pos = 0;
+    const char* l1 = env->GetStringUTFChars(jl1, 0);
+    ioctl(lcd_fd, LCD_SET_CURSOR_POS, &pos, _IOC_SIZE(LCD_SET_CURSOR_POS));
+    write(lcd_fd, l1, strlen(l1));
+    env->ReleaseStringUTFChars(jl1, l1);
+
+    pos = 16;
+    const char* l2 = env->GetStringUTFChars(jl2, 0);
+    ioctl(lcd_fd, LCD_SET_CURSOR_POS, &pos, _IOC_SIZE(LCD_SET_CURSOR_POS));
+    write(lcd_fd, l2, strlen(l2));
+    env->ReleaseStringUTFChars(jl2, l2);
     return 0;
 }

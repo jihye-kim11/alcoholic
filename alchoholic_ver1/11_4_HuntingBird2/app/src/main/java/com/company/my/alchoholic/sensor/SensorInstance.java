@@ -26,6 +26,7 @@ public class SensorInstance implements Sensor{
     private native int motorSpin(int motorFd, int speed, int second);
     private native int show7Segment(int segFd, int d1, int d2, int d3, int d4);
     private native int showLed(int ledFd, int amount);
+    private native int showLcd(int lcdFd, String jl1, String jl2);
 
     private void init(){
 
@@ -168,6 +169,28 @@ public class SensorInstance implements Sensor{
         if (0 > amount) amount = 0;
         if (amount > 8) amount = 8;
         showLed(fds[SensorType.LED.getSensorCode()], amount);
+    }
+
+    private String[] lines = { "", "" };
+    private void commitLcd(){
+        showLcd(fds[SensorType.LCD.getSensorCode()], lines[0], lines[1]);
+    }
+
+    @Override
+    public void showLcd(String line1, String line2) {
+        String l1 = line1 == null ? "" : line1;
+        String l2 = line2 == null ? "" : line2;
+        lines[0] = l1;
+        lines[1] = l2;
+        commitLcd();
+    }
+
+    @Override
+    public void showLcd(int lineNum, String line) {
+        String l = line == null ? "" : line;
+        if (lineNum < 0 || lineNum > 1) lineNum = 0;
+        lines[lineNum] = line;
+        commitLcd();
     }
 
 
