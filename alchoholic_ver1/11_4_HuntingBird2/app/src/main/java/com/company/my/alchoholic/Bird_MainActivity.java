@@ -44,7 +44,8 @@ public class Bird_MainActivity extends AppCompatActivity {
                 dbAdapter.open();
                 String score = dbAdapter.Open();
                 dbAdapter.close();
-                if(score=="1"){
+                System.out.println("점수:"+score);
+                if(score.equals("1")){
                     Intent intent = new Intent(getApplicationContext(), success.class);
                     startActivity(intent);
                     finish();}

@@ -111,12 +111,12 @@ public class Bird_Sparrow {
         rect.set(x - w, y - h, x + w, y + h);
 
         // 터치 위치가 참새 내부인가?
-        System.out.println("클릭 가로: "+px);
-        System.out.println("클릭 세로: "+py);
-        System.out.println("새 가로: "+w);
-        System.out.println("새 세로: "+h);
-        System.out.println("새위치 가로: "+x);
-        System.out.println("새위치 세로: "+y);
+      //  System.out.println("클릭 가로: "+px);
+      //  System.out.println("클릭 세로: "+py);
+     //   System.out.println("새 가로: "+w);
+     //   System.out.println("새 세로: "+h);
+     //   System.out.println("새위치 가로: "+x);
+      //  System.out.println("새위치 세로: "+y);
         //터치에 해당하는 넓이에 참새가 있는가? 로 변경
         float dist = (px - x) * (px - x) + (py - y) * (py - y);
         if (dist < h * h * 0.7f) {
