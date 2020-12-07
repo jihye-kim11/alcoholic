@@ -22,10 +22,7 @@ public class loading extends AppCompatActivity {
         GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(gif);
         Glide.with(this).load(R.drawable.loading).into(gifImage);
 
-        //모터 돌리기,dot 나오게 하기
-        final Sensor sensor = SensorInstance.getInstance();
-        sensor.startAnimatedDot(0);
-        sensor.runMotor(0, 10, 10);
+
 
         new Handler().postDelayed(new Runnable()
         {

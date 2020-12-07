@@ -1,6 +1,7 @@
 package com.company.my.alchoholic;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -25,6 +26,9 @@ public class Bubble_GameView extends View {
     private Bitmap imgBack;
     private int w, h;
 
+    //점수
+    private int score = 0;
+
     // Random.
     private Random rnd = new Random();
     private Paint paint = new Paint();
@@ -32,7 +36,8 @@ public class Bubble_GameView extends View {
     // 비눗방울, 파편
     private List<Bubble> mBubble = Collections.synchronizedList( new ArrayList<Bubble>() );
     static public List<Bubble_SmallBubble> mSmall = Collections.synchronizedList( new ArrayList<Bubble_SmallBubble>() );
-
+    //sqlite
+    myDBAdapter dbAdapter;
     //-----------------------------
     // 생성자
     //-----------------------------
@@ -41,6 +46,7 @@ public class Bubble_GameView extends View {
 
         // Context 저장
         this.context = context;
+        dbAdapter = new myDBAdapter(context);
     }
 
     //-----------------------------
@@ -102,7 +108,7 @@ public class Bubble_GameView extends View {
     //-----------------------------
     private void makeBubble() {
         synchronized (mBubble) {
-            if (mBubble.size() < 20 && rnd.nextInt(1000) < 8) {
+            if (mBubble.size() < 20 && rnd.nextInt(200) < 8) {//비눗방울 나오는 속도 조절
                 mBubble.add(new Bubble(context, w, h));
             }
         }
@@ -131,11 +137,23 @@ public class Bubble_GameView extends View {
     // 수명이 끝난 오브젝트 제거 - 동기화
     //-----------------------------
     private void removeDead() {
+      //  dbAdapter = new myDBAdapter(this);
         // 풍선
         synchronized (mBubble) {
             for (int i = mBubble.size() - 1; i >= 0; i--) {
                 if (mBubble.get(i).isDead) {
                     mBubble.remove(i);
+                    score +=100;
+                    //여기다가 7segment 추가하여 score 변동할때마다 출력하기!
+                    System.out.println(score);
+                   //점수 db에 저장
+                    dbAdapter.open();
+                    dbAdapter.clear();
+                    //sqlDB.execSQL("INSERT INTO groupTBL VALUES ('" + user_id + "');");
+                    if(score>=2500){
+                    dbAdapter.insert("1");}
+                    else{dbAdapter.insert("0");}
+                    dbAdapter.close();
                 }
             }
         }
@@ -176,7 +194,6 @@ public class Bubble_GameView extends View {
     //-----------------------------
     class GameThread extends Thread {
         public boolean canRun = true;
-
         @Override
         public void run() {
             while (canRun) {

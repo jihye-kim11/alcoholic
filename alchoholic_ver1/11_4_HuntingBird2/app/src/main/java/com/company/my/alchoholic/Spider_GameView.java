@@ -40,14 +40,15 @@ public class Spider_GameView extends View {
     static public List<Spider_Butterfly> mFly;
     static public List<Spider_Poison> mPoison;
     private Spider spider;
-
+    //sqlite
+    myDBAdapter dbAdapter;
     //-----------------------------
     // 생성자
     //-----------------------------
     public Spider_GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-
+        dbAdapter = new myDBAdapter(context);
         // 리소스 설정
         Spider_CommonResources.set(context);
 
@@ -173,9 +174,16 @@ public class Spider_GameView extends View {
                 killCount++;
                 score += mFly.get(i).score;
                 //led 1개씩 켜기
+                System.out.println(killCount+"led 켜기");
                 // 나비 초기화
                 mFly.get(i).init();
-
+                //점수 db에 저장
+                dbAdapter.open();
+                dbAdapter.clear();
+                if(killCount>=8){
+                    dbAdapter.insert("1");}
+                else{dbAdapter.insert("0");}
+                dbAdapter.close();
             }
         }
 

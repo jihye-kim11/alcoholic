@@ -40,7 +40,7 @@ public class Bubble {
         scrH = height;
 
         // 비눗방울의 크기를 랜덤하게 설정
-        r = rnd.nextInt(71) + 50;  // 50~120
+        r = rnd.nextInt(51) + 40;  //비눗방을 크기 변경
 
         // 비눗방울 만들기
         bubble = BitmapFactory.decodeResource(context.getResources(), R.drawable.bubble);

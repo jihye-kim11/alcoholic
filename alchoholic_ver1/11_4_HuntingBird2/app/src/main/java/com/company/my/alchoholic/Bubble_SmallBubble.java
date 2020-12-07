@@ -41,7 +41,7 @@ public class Bubble_SmallBubble {
         Random rnd = new Random();
 
         // 속도, 수명
-        speed = rnd.nextInt(201) + 300;    // 300~500
+        speed = rnd.nextInt(201) + 1000;    // 속도 변경
         // speed = 300;
         life = (rnd.nextInt(6) + 10) / 10f;   // 1~1.5초
 

@@ -17,6 +17,8 @@
 #define DOTM_MAGIC              0xBC
 #define DOTM_SET_CLEAR          _IOW(DOTM_MAGIC, 0, int)
 #define DOTM_SPIN               _IOW(DOTM_MAGIC, 1, int)
+#define DOTM_POP               _IOW(DOTM_MAGIC, 2, int)
+#define DOTM_BOMB               _IOW(DOTM_MAGIC, 3, int)
 
 
 #define DOT_WIDTH       8 
@@ -40,6 +42,22 @@ unsigned char dotm_fontmap_spin[6][10] = {
         {0x00,0x00,0x00,0x30,0x49,0x06,0x00,0x00,0x00,0x00}, // ~
         {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}  // empty
 };
+
+unsigned char dotm_fontmap_pop[4][10] = {
+        {0x00,0x00,0x00,0x00,0x08,0x00,0x00,0x00,0x00,0x00}, // dol
+        {0x00,0x00,0x00,0x1c,0x14,0x1c,0x00,0x00,0x00,0x00}, // ah
+        {0x00,0x00,0x3e,0x22,0x22,0x22,0x3e,0x00,0x00,0x00}, // gan
+        {0x00,0x7f,0x41,0x41,0x41,0x41,0x41,0x7f,0x00,0x00}, // da
+};
+
+unsigned char dotm_fontmap_bomb[4][10] = {
+        {0x00,0x00,0x00,0x00,0x08,0x00,0x00,0x00,0x00,0x00}, // dol
+        {0x00,0x00,0x00,0x14,0x08,0x14,0x00,0x00,0x00,0x00}, // ah
+        {0x00,0x00,0x08,0x14,0x2a,0x14,0x08,0x00,0x00,0x00}, // gan
+        {0x00,0x14,0x08,0x55,0x2a,0x55,0x08,0x14,0x00,0x00}, // da
+};
+
+
 unsigned char dotm_fontmap_empty[10] = {
         0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
 };
@@ -98,7 +116,7 @@ ssize_t dotm_write(struct file *pinode, const char *gdata, size_t len, loff_t *o
 
 static long dotm_ioctl(struct file *pinode, unsigned int cmd, unsigned long data)
 {
-        int i;
+        int i, j, k;
         unsigned short wordvalue;
         unsigned char next_word[10];
         int next_word_index;
@@ -147,6 +165,29 @@ static long dotm_ioctl(struct file *pinode, unsigned int cmd, unsigned long data
                 position++;
                 break;
 
+        case DOTM_POP:
+                for (i=0; i<3; i++){
+                        for(j=0; j<4; j++) {
+                                msleep(30);
+                                for (k=0; k<10;k++){
+                                        wordvalue = dotm_fontmap_pop[j][k] & 0x7F;
+                                        iom_fpga_itf_write((unsigned int) DOTM_ADDR+(k*2), wordvalue);
+                                }
+                        }
+                }
+                break;
+
+        case DOTM_BOMB:
+                for (i=0; i<3; i++){
+                        for(j=0; j<4; j++) {
+                                msleep(30);
+                                for (k=0; k<10;k++){
+                                        wordvalue = dotm_fontmap_bomb[j][k] & 0x7F;
+                                        iom_fpga_itf_write((unsigned int) DOTM_ADDR+(k*2), wordvalue);
+                                }
+                        }
+                }
+                break;
         }
         return 0;
 }

@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 public class Spider_MainActivity extends AppCompatActivity {
-
+    myDBAdapter dbAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,16 +19,28 @@ public class Spider_MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // getSupportActionBar().hide();
         setTitle("독거미의 나비 사냥");
+        dbAdapter = new myDBAdapter(this);
         new Handler().postDelayed(new Runnable()
         {
             @Override
             public void run()
             {
-                Intent intent = new Intent(getApplicationContext(), select.class);
-                startActivity(intent);
-                finish();
+                System.out.println("점수");
+
+                dbAdapter.open();
+                String score = dbAdapter.Open();
+                dbAdapter.close();
+                if(score=="1"){
+                    Intent intent = new Intent(getApplicationContext(), success.class);
+                    startActivity(intent);
+                    finish();}
+                else{
+                    Intent intent = new Intent(getApplicationContext(), fail.class);
+                    startActivity(intent);
+                    finish();}
+
             }
-        }, 20000);//20초동안 진행
+        }, 20000);//10초동안 진행
         //점수 결과 확인 ->점수로 성공 실패 페이지 띄우기
     }
 
