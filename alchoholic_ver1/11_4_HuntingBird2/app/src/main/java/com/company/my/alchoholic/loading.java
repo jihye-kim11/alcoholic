@@ -22,7 +22,8 @@ public class loading extends AppCompatActivity {
         GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(gif);
         Glide.with(this).load(R.drawable.loading).into(gifImage);
 
-
+        sensor.runMotor( 1, 10, 5);
+        sensor.startAnimatedDot(0);
 
         new Handler().postDelayed(new Runnable()
         {
