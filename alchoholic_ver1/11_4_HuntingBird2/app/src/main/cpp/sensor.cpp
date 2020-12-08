@@ -113,8 +113,8 @@ extern "C" JNIEXPORT jint JNICALL
 Java_com_company_my_alchoholic_sensor_iorequest_WriteMotorSpinRequest_spinMotor
 (JNIEnv *env, jobject thiz, jint motor_fd, jint activate, jint dir, jint speed) {
     __android_log_print(ANDROID_LOG_DEBUG, "spinMotor", "enter spinMotor %d %d %d %d", motor_fd, activate, dir, speed);
-    unsigned char buf[4] = { static_cast<unsigned char>(activate), static_cast<unsigned char>(dir), static_cast<unsigned char>(speed), 0 };
-    write(motor_fd, buf, 4);
+    unsigned char buf[4] = { static_cast<unsigned char>(activate), static_cast<unsigned char>(dir), static_cast<unsigned char>(speed) };
+    write(motor_fd, buf, 3);
     __android_log_print(ANDROID_LOG_DEBUG, "spinMotor", "done spinMotor");
     return 0;
 }

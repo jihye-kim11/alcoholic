@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class IoRequestProcessingThread implements Runnable{
 
-    public static final int REQ_DELAY = 5;
+    public static final int REQ_DELAY = 10;
 
     private Thread thread;
     private Queue<IoRequest> requests;

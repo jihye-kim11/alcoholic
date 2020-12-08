@@ -32,6 +32,9 @@ public class WriteMotorSpinRequest implements IoRequest{
 
     @Override
     public int processRequest() {
-        return spinMotor(fd, activate, dir, speed);
+        long time = System.currentTimeMillis();
+        int ret = spinMotor(fd, activate, dir, speed);
+        System.out.println("걸린시간 " + (System.currentTimeMillis() - time));
+        return ret;
     }
 }
