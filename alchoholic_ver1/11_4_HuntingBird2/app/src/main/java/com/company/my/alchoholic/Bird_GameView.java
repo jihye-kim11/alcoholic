@@ -164,6 +164,9 @@ public class Bird_GameView extends View {
     @Override
     protected void onDetachedFromWindow() {
         mThread.canRun = false;
+        sensor.unregisterButtonCallback(6, bc6);
+        sensor.unregisterButtonCallback(7, bc7);
+        sensor.unregisterButtonCallback(8, bc8);
         super.onDetachedFromWindow();
     }
 
@@ -283,21 +286,11 @@ public class Bird_GameView extends View {
         return true;
     }
 
-    /**
-     * 게임 끝났을 때 호출되는 메소드
-     * @author jomingyu
-     */
-    public void gameDone() {
-        sensor.unregisterButtonCallback(6, bc6);
-        sensor.unregisterButtonCallback(7, bc7);
-        sensor.unregisterButtonCallback(8, bc8);
-    }
-
     //-----------------------------
     // Thread
     //-----------------------------
     class GameThread extends Thread {
-        public boolean canRun = true;
+        public volatile boolean canRun = true;
 
         @Override
         public void run() {
