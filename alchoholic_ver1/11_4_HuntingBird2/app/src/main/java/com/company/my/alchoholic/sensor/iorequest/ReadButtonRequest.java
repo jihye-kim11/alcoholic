@@ -27,14 +27,21 @@ public class ReadButtonRequest implements IoRequest{
 
     @Override
     public int processRequest() {
-        int rawBtnValue = readBtns(btnFd);
-        for (int idx = 0; idx< Sensor.NUM_BTN; idx++){
-            rawBtnValue = rawBtnValue >> 1;
-            int btnValue = rawBtnValue & 0x01;
-            for (ButtonCallback buttonCallback : btnCallbacks.get(idx)) {
-                buttonCallback.onButtonClick(btnValue);
+        long time = System.currentTimeMillis();
+        final int rawBtnValue = readBtns(btnFd);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int temp = rawBtnValue;
+                for (int idx = 0; idx< Sensor.NUM_BTN; idx++){
+                    temp = temp >> 1;
+                    int btnValue = temp & 0x01;
+                    for (ButtonCallback buttonCallback : btnCallbacks.get(idx)) {
+                        buttonCallback.onButtonClick(btnValue);
+                    }
+                }
             }
-        }
+        }).start();
         return 0;
     }
 }

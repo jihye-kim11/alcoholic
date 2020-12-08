@@ -4,6 +4,7 @@ import android.widget.Button;
 
 import com.company.my.alchoholic.sensor.iorequest.IoRequestProcessingThread;
 import com.company.my.alchoholic.sensor.iorequest.Write7SegmentRequest;
+import com.company.my.alchoholic.sensor.iorequest.WriteDotMatrixRequest;
 import com.company.my.alchoholic.sensor.iorequest.WriteLcdRequest;
 import com.company.my.alchoholic.sensor.iorequest.WriteLedRequest;
 import com.company.my.alchoholic.sensor.iorequest.WriteMotorSpinRequest;
@@ -21,16 +22,13 @@ public class SensorInstance implements Sensor{
     private IoRequestProcessingThread ioThread;
     private Vector<Vector<ButtonCallback>> btnCallbacks;
     private Vector<Vector<ButtonCallback>> switchCallbacks;
+    private Vector<WriteDotMatrixRequest> currentAnimation;
 
     static {
         System.loadLibrary("sensor");
     }
     private native int loadSensors(int[] arr);
     private native int unloadSensors(int[] arr);
-    private native int dotmSpin(int dotmFd);
-    private native int dotmPop(int dotmFd);
-    private native int dotmBomb(int dotmFd);
-    private native int dotmClear(int dotmFd);
 
     private void init(){
 
@@ -61,7 +59,7 @@ public class SensorInstance implements Sensor{
         if (flag) status = SensorStatus.START;
         else status = SensorStatus.FAIL;
 
-
+        currentAnimation = new Vector<>();
         ioThread = new IoRequestProcessingThread();
         ioThread.start();
         inputThread = new InputThread(fds.clone(), btnCallbacks, switchCallbacks, ioThread);
@@ -80,7 +78,16 @@ public class SensorInstance implements Sensor{
     }
 
     @Override
-    public void runMotor(int direction, int speed) {}
+    public void runMotor(int direction, int speed) {
+        ioThread.addRequest(
+                new WriteMotorSpinRequest(
+                        fds[SensorType.STEP_MOTOR.getSensorCode()],
+                        1,
+                        direction,
+                        speed
+                )
+        );
+    }
 
     @Override
     public void runMotor(int direction, final int speed, final int time) {
@@ -116,19 +123,51 @@ public class SensorInstance implements Sensor{
     }
 
     @Override
-    public void stopMotor() {}
+    public void stopMotor() {
+        ioThread.addRequest(
+                new WriteMotorSpinRequest(
+                        fds[SensorType.STEP_MOTOR.getSensorCode()],
+                        0,
+                        0,
+                        0
+                )
+        );
+    }
 
     @Override
     public void startAnimatedDot(final int code) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("DOTM Animation On " + code);
-                if (code == 0) dotmSpin(fds[SensorType.DOT_MATRIX.getSensorCode()]);
-                else if (code == 1) dotmPop(fds[SensorType.DOT_MATRIX.getSensorCode()]);
-                else if (code == 2) dotmBomb(fds[SensorType.DOT_MATRIX.getSensorCode()]);
+        final int fd = fds[SensorType.DOT_MATRIX.getSensorCode()];
+        if (code == 0) {
+            for (int idx = 0; idx < 60; idx++){
+                ioThread.addRequest(new WriteDotMatrixRequest(fd, 0, idx%40));
             }
-        }).start();
+            ioThread.addRequest(new WriteDotMatrixRequest(fd, 3, 0));
+        }
+        else if (code == 1){
+            for (WriteDotMatrixRequest rq: currentAnimation){
+                rq.setSkip(true);
+            }
+            for (int idx = 0; idx < 4; idx++){
+                WriteDotMatrixRequest req =new WriteDotMatrixRequest(fd, 1, idx);
+                currentAnimation.add(req);
+                ioThread.addRequest(req);
+            }
+            ioThread.addRequest(new WriteDotMatrixRequest(fd, 3, 0));
+        }
+        else if (code == 2){
+            for (WriteDotMatrixRequest rq: currentAnimation){
+                rq.setSkip(true);
+            }
+            for (int idx = 0; idx < 4; idx++){
+                WriteDotMatrixRequest req =new WriteDotMatrixRequest(fd, 2, idx);
+                currentAnimation.add(req);
+                ioThread.addRequest(req);
+            }
+            ioThread.addRequest(new WriteDotMatrixRequest(fd, 3, 0));
+        }
+        else {
+            ioThread.addRequest(new WriteDotMatrixRequest(fd, 3, 0));
+        }
     }
 
     @Override
@@ -136,12 +175,8 @@ public class SensorInstance implements Sensor{
 
     @Override
     public void clearDot() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                dotmClear(fds[SensorType.DOT_MATRIX.getSensorCode()]);
-            }
-        }).start();
+        final int fd = fds[SensorType.DOT_MATRIX.getSensorCode()];
+        ioThread.addRequest(new WriteDotMatrixRequest(fd, 3, 0));
     }
 
     @Override

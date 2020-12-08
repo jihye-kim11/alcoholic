@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class IoRequestProcessingThread implements Runnable{
 
-    public static final int REQ_DELAY = 10;
+    public static final int REQ_DELAY = 3;
 
     private Thread thread;
     private Queue<IoRequest> requests;
@@ -21,6 +21,7 @@ public class IoRequestProcessingThread implements Runnable{
 
     public void start(){
         runFlag = true;
+        thread.setDaemon(true);
         thread.start();
     }
 
@@ -37,13 +38,18 @@ public class IoRequestProcessingThread implements Runnable{
         while(runFlag){
             IoRequest request = requests.poll();
             if (request != null && request.isSkipped() != true){
+                long time = System.currentTimeMillis();
                 request.processRequest();
-                //System.out.println("processing request");
-                try {
-                    Thread.sleep(REQ_DELAY);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    runFlag = false;
+                int size = requests.size();
+                long timeDelta = (System.currentTimeMillis() - time);
+                //System.out.printf("processing request %d %d\n", size, timeDelta);
+                if (REQ_DELAY - timeDelta > 0 && size < 10){
+                    try {
+                        Thread.sleep(REQ_DELAY - timeDelta);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        runFlag = false;
+                    }
                 }
             }
         }

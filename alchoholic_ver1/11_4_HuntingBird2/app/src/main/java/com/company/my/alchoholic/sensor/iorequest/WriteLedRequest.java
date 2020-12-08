@@ -23,6 +23,7 @@ public class WriteLedRequest implements IoRequest{
 
     @Override
     public int processRequest() {
+        System.out.println("led start!");
         return showLed(fd, amount);
     }
 }
