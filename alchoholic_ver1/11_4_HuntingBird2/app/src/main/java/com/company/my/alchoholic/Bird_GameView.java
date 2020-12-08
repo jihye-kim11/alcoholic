@@ -282,7 +282,6 @@ public class Bird_GameView extends View {
         //터치된 포인트 가져와서 그 포인트에 해당하는 참새 kill
         //버튼 클릭시 그 버튼에 해당하는 넓이 가져오고 해당 영역에 있는 참새 kill
         boolean isHit = false;
-        mSound.play(soundId, 1, 1, 1, 0, 1);
 
         for ( Bird_Sparrow tmp : mSparrow ) {
             if (tmp.hitTest(x, y)) {
