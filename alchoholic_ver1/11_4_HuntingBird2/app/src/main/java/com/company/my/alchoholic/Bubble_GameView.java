@@ -52,6 +52,11 @@ public class Bubble_GameView extends View {
         // Context 저장
         this.context = context;
         dbAdapter = new myDBAdapter(context);
+
+        dbAdapter.open();
+        dbAdapter.clear();
+        dbAdapter.insert("0");//첫 시작에서만 0
+        dbAdapter.close();
     }
 
     //-----------------------------
@@ -152,14 +157,16 @@ public class Bubble_GameView extends View {
                     //여기다가 7segment 추가하여 score 변동할때마다 출력하기!
                     System.out.println(score);
                     sensor.show7Seg(score);
-                   //점수 db에 저장
-                    dbAdapter.open();
-                    dbAdapter.clear();
+
                     //sqlDB.execSQL("INSERT INTO groupTBL VALUES ('" + user_id + "');");
-                    if(score>=2500){
-                    dbAdapter.insert("1");}
-                    else{dbAdapter.insert("0");}
-                    dbAdapter.close();
+                    if(score==2500){
+                        //점수 db에 저장
+                        dbAdapter.open();
+                        dbAdapter.clear();
+                    dbAdapter.insert("1");
+                        dbAdapter.close();}
+                    else{}
+
                 }
             }
         }

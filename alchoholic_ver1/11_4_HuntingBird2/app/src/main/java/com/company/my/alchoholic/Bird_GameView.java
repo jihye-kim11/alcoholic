@@ -73,6 +73,10 @@ public class Bird_GameView extends View {
        // sensor.readySensor();
 
         dbAdapter = new myDBAdapter(context);
+        dbAdapter.open();
+        dbAdapter.clear();
+        dbAdapter.insert("0");//첫 시작에서만 0
+        dbAdapter.close();
 
         bc6 = new ButtonCallback() {
             @Override
@@ -247,16 +251,13 @@ public class Bird_GameView extends View {
         System.out.println(hit+"수만큼 hit");
         sensor.show7Seg(hit);
 
-        //점수 db에 저장
-        dbAdapter.open();
-        dbAdapter.clear();
-        //sqlDB.execSQL("INSERT INTO groupTBL VALUES ('" + user_id + "');");
-        if(hit>=1000){
+        if(hit==1000){
+           //점수 db에 저장
+            dbAdapter.open();
+            dbAdapter.clear();
             dbAdapter.insert("1");
+            dbAdapter.close();
             System.out.println("1 접근"); }
-        else{dbAdapter.insert("0");
-            System.out.println("0 접근"); }
-        dbAdapter.close();
     }
 
     //--------------------------------
