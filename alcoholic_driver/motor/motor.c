@@ -45,7 +45,7 @@ ssize_t motor_write(struct file *pinode, const char *gdata, size_t len, loff_t *
     unsigned short wordvalue;
     const char *tmp = gdata;
 
-    ret = copy_from_user(input, tmp, 4);
+    ret = copy_from_user(input, tmp, 3);
     if (ret < 0) return -EFAULT;
 
     wordvalue = input[0] & 0xFF;
@@ -58,7 +58,7 @@ ssize_t motor_write(struct file *pinode, const char *gdata, size_t len, loff_t *
     iom_fpga_itf_write((unsigned int) MOTOR_ADDR_VEL, wordvalue);
 
     return len;
-    
+
 }
 
 static long motor_ioctl(struct file *pinode, unsigned int cmd, unsigned long data)
