@@ -1,0 +1,7 @@
+Executable : C:\Users\Park\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\ninja.exe
+arguments : 
+-C
+C:\Users\Park\Documents\GitHub\alcoholic\alchoholic_ver1\11_4_HuntingBird2\app\.cxx\cmake\debug\x86
+sensor
+jvmArgs : 
+

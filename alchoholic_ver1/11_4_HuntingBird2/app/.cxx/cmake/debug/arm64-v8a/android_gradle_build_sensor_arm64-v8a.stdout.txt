@@ -1,0 +1,2 @@
+ninja: Entering directory `C:\Users\Park\Documents\GitHub\alcoholic\alchoholic_ver1\11_4_HuntingBird2\app\.cxx\cmake\debug\arm64-v8a'
+ninja: no work to do.
