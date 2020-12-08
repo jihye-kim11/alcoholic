@@ -132,9 +132,14 @@ public class SensorInstance implements Sensor{
     }
 
     private int num7Seg[] = { 0, 0, 0, 0 };
-    private int commit7Segment(){
+    private void commit7Segment(){
         for (int idx = 0; idx < num7Seg.length; idx++) num7Seg[idx] = num7Seg[idx] > 9 ? 9 : num7Seg[idx];
-        return show7Segment(fds[SensorType.SEVEN_SEG.getSensorCode()], num7Seg[0], num7Seg[1], num7Seg[2], num7Seg[3]);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                show7Segment(fds[SensorType.SEVEN_SEG.getSensorCode()], num7Seg[0], num7Seg[1], num7Seg[2], num7Seg[3]);
+            }
+        }).start();
     }
 
     @Override
@@ -168,12 +173,23 @@ public class SensorInstance implements Sensor{
     public void showLed(int amount) {
         if (0 > amount) amount = 0;
         if (amount > 8) amount = 8;
-        showLed(fds[SensorType.LED.getSensorCode()], amount);
+        final int temp = amount;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                showLed(fds[SensorType.LED.getSensorCode()], temp);
+            }
+        }).start();
     }
 
     private String[] lines = { "", "" };
     private void commitLcd(){
-        showLcd(fds[SensorType.LCD.getSensorCode()], lines[0], lines[1]);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                showLcd(fds[SensorType.LCD.getSensorCode()], lines[0], lines[1]);
+            }
+        }).start();
     }
 
     @Override
