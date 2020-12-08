@@ -127,23 +127,23 @@ public class Bird_Sparrow {
             ang = 180;
         }
 
-        if(px<200){
-            if(x<200){
+        if(px<250){
+            if(x<250){
                     dir.y = speed;
                     dir.x = 0;
                     // 추락시 180도 회전
                     ang = 180;}
 
         }
-        else if((200<=px)& (px<400)){
-            if((200<=px)& (px<400)){
+        else if((250<=px)& (px<450)){
+            if((250<=x)& (x<450)){
                 dir.y = speed;
                 dir.x = 0;
                 // 추락시 180도 회전
                 ang = 180;}
         }
-        else{
-            if(400<=px){
+        else if(450<=px){
+            if(450<=x){
                 dir.y = speed;
                 dir.x = 0;
                 // 추락시 180도 회전
