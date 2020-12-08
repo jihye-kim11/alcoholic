@@ -54,15 +54,14 @@ int main(int argc, char** argv)
         if(strcmp(argv[1], "pop") == 0) {
                 for(i=0; i<4; i++){
                         ioctl(fd, DOTM_POP, i, _IOC_SIZE(DOTM_POP));
-                        ioctl(fd, DOTM_SET_CLEAR, NULL);
                 }
+                ioctl(fd, DOTM_SET_CLEAR, NULL);
         }
         if(strcmp(argv[1], "bomb") == 0) {
                 for(i=0; i<4; i++){
                         ioctl(fd, DOTM_BOMB, i, _IOC_SIZE(DOTM_BOMB));
-                        ioctl(fd, DOTM_SET_CLEAR, NULL);
                 }
-
+        ioctl(fd, DOTM_SET_CLEAR, NULL);
         }
 
         close(fd);
