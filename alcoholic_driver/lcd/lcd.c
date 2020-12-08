@@ -70,18 +70,20 @@ ssize_t lcd_write(struct file *pinode, const char *gdata, size_t len, loff_t *of
         }
 
         for (i=0; i<len; i+=2){
-                if(i<len) {
-                        wordvalue = ((unsigned short) buf[i]) << 8 & 0xFF00;
-                        wordvalue = wordvalue | (((unsigned short) buf[i+1]) & 0x00FF);
-                }
-                else {
-                        wordvalue = ((unsigned short)' ') << 8 & 0xFF00;
-                        wordvalue = wordvalue | (((unsigned short)' ') & 0x00FF);
-                }
+                wordvalue = ((unsigned short) buf[i]) << 8 & 0xFF00;
+                wordvalue = wordvalue | (((unsigned short) buf[i+1]) & 0x00FF);
+
                 __lcd_write(wordvalue, lcd_cursor_pos);
 
                 lcd_cursor_pos += 2;
                 lcd_cursor_pos = lcd_cursor_pos % LCD_NUM_CHARS;
+        }
+        for(i=len; i<16; i+=2){
+                wordvalue = ((unsigned short)' ') << 8 & 0xFF00;
+                wordvalue = wordvalue | (((unsigned short)' ') & 0x00FF);
+                __lcd_write(wordvalue, lcd_cursor_pos);
+                lcd_cursor_pos += 2;
+              lcd_cursor_pos = lcd_cursor_pos % LCD_NUM_CHARS;
         }
 
         return len;
@@ -104,7 +106,7 @@ static long lcd_ioctl(struct file *pinode, unsigned int cmd, unsigned long data)
                         return -EFAULT;
 }
 
-                lcd_cursor_pos = param ;
+                lcd_cursor_pos = (param >> 1) << 1;
                 printk(KERN_DEBUG "param: %d, pos: %d\n", param, lcd_cursor_pos);
                 break;
         }
@@ -145,4 +147,3 @@ module_exit(lcd_exit);
 MODULE_AUTHOR(DRIVER_AUTHOR);
 MODULE_DESCRIPTION(DRIVER_DESC);
 MODULE_LICENSE("Dual BSD/GPL");
-                                          
