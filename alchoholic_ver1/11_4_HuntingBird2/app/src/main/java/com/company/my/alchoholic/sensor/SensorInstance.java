@@ -3,6 +3,10 @@ package com.company.my.alchoholic.sensor;
 import android.widget.Button;
 
 import com.company.my.alchoholic.sensor.iorequest.IoRequestProcessingThread;
+import com.company.my.alchoholic.sensor.iorequest.Write7SegmentRequest;
+import com.company.my.alchoholic.sensor.iorequest.WriteLcdRequest;
+import com.company.my.alchoholic.sensor.iorequest.WriteLedRequest;
+import com.company.my.alchoholic.sensor.iorequest.WriteMotorSpinRequest;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -27,10 +31,6 @@ public class SensorInstance implements Sensor{
     private native int dotmPop(int dotmFd);
     private native int dotmBomb(int dotmFd);
     private native int dotmClear(int dotmFd);
-    private native int motorSpin(int motorFd, int speed, int second);
-    private native int show7Segment(int segFd, int d1, int d2, int d3, int d4);
-    private native int showLed(int ledFd, int amount);
-    private native int showLcd(int lcdFd, String jl1, String jl2);
 
     private void init(){
 
@@ -87,11 +87,31 @@ public class SensorInstance implements Sensor{
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("MOTOR On");
-                motorSpin(fds[SensorType.STEP_MOTOR.getSensorCode()], speed, time);
+                ioThread.addRequest(
+                        new WriteMotorSpinRequest(
+                                fds[SensorType.STEP_MOTOR.getSensorCode()],
+                                1,
+                                1,
+                                speed
+                        )
+                );
+                System.out.printf("register motor %d %d\n", speed, time);
+                try {
+                    Thread.sleep(time * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ioThread.addRequest(
+                        new WriteMotorSpinRequest(
+                                fds[SensorType.STEP_MOTOR.getSensorCode()],
+                                0,
+                                0,
+                                0
+                        )
+                );
+                System.out.println("register motor stop");
             }
         });
-        thread.setPriority(Thread.MAX_PRIORITY);
         thread.start();
     }
 
@@ -147,12 +167,12 @@ public class SensorInstance implements Sensor{
     private int num7Seg[] = { 0, 0, 0, 0 };
     private void commit7Segment(){
         for (int idx = 0; idx < num7Seg.length; idx++) num7Seg[idx] = num7Seg[idx] > 9 ? 9 : num7Seg[idx];
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                show7Segment(fds[SensorType.SEVEN_SEG.getSensorCode()], num7Seg[0], num7Seg[1], num7Seg[2], num7Seg[3]);
-            }
-        }).start();
+        ioThread.addRequest(
+                new Write7SegmentRequest(
+                        fds[SensorType.SEVEN_SEG.getSensorCode()],
+                        num7Seg[0], num7Seg[1], num7Seg[2], num7Seg[3]
+                )
+        );
     }
 
     @Override
@@ -187,22 +207,21 @@ public class SensorInstance implements Sensor{
         if (0 > amount) amount = 0;
         if (amount > 8) amount = 8;
         final int temp = amount;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                showLed(fds[SensorType.LED.getSensorCode()], temp);
-            }
-        }).start();
+        ioThread.addRequest(
+                new WriteLedRequest(
+                        fds[SensorType.LED.getSensorCode()],
+                        temp
+                )
+        );
     }
 
     private String[] lines = { "", "" };
     private void commitLcd(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                showLcd(fds[SensorType.LCD.getSensorCode()], lines[0], lines[1]);
-            }
-        }).start();
+        ioThread.addRequest(new WriteLcdRequest(
+                fds[SensorType.LCD.getSensorCode()],
+                lines[0],
+                lines[1]
+        ));
     }
 
     @Override

@@ -110,12 +110,12 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_dotmClear(JNIEnv *env, jobj
 }
 
 extern "C" JNIEXPORT jint JNICALL
-Java_com_company_my_alchoholic_sensor_SensorInstance_motorSpin
-(JNIEnv *env, jobject thiz, jint motor_fd, jint speed, jint second) {
-    __android_log_print(ANDROID_LOG_DEBUG, "motorSpin", "enter motorSpin");
-    unsigned char buf[4] = { 1, 1, static_cast<unsigned char>(speed), static_cast<unsigned char>(second) };
+Java_com_company_my_alchoholic_sensor_iorequest_WriteMotorSpinRequest_spinMotor
+(JNIEnv *env, jobject thiz, jint motor_fd, jint activate, jint dir, jint speed) {
+    __android_log_print(ANDROID_LOG_DEBUG, "spinMotor", "enter spinMotor %d %d %d %d", motor_fd, activate, dir, speed);
+    unsigned char buf[4] = { static_cast<unsigned char>(activate), static_cast<unsigned char>(dir), static_cast<unsigned char>(speed), 0 };
     write(motor_fd, buf, 4);
-    __android_log_print(ANDROID_LOG_DEBUG, "motorSpin", "done motorSpin");
+    __android_log_print(ANDROID_LOG_DEBUG, "spinMotor", "done spinMotor");
     return 0;
 }
 
@@ -140,7 +140,7 @@ Java_com_company_my_alchoholic_sensor_iorequest_ReadSwitchRequest_readSwitchs(JN
 }
 
 extern "C" JNIEXPORT jint JNICALL
-Java_com_company_my_alchoholic_sensor_SensorInstance_show7Segment(JNIEnv *env, jobject thiz, jint seg_fd, jint d1, jint d2, jint d3, jint d4) {
+Java_com_company_my_alchoholic_sensor_iorequest_Write7SegmentRequest_show7Segment(JNIEnv *env, jobject thiz, jint seg_fd, jint d1, jint d2, jint d3, jint d4) {
     if (seg_fd < 0) return -1;
     unsigned char bytevalue[4] = {
             static_cast<unsigned char>(d1),
@@ -153,7 +153,7 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_show7Segment(JNIEnv *env, j
 }
 
 extern "C" JNIEXPORT jint JNICALL
-Java_com_company_my_alchoholic_sensor_SensorInstance_showLed(JNIEnv *env, jobject thiz, jint led_fd, jint amount) {
+Java_com_company_my_alchoholic_sensor_iorequest_WriteLedRequest_showLed(JNIEnv *env, jobject thiz, jint led_fd, jint amount) {
     if (led_fd < 0) return -1;
     unsigned char data = static_cast<unsigned char>(amount);
     __android_log_print(ANDROID_LOG_DEBUG, "showLed", "enter showLed %d", data);
@@ -176,7 +176,7 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_showLed(JNIEnv *env, jobjec
 #define LCD_SET_CURSOR_POS _IOW(LCD_MAGIC,0,int)
 
 extern "C" JNIEXPORT jint JNICALL
-Java_com_company_my_alchoholic_sensor_SensorInstance_showLcd(JNIEnv *env, jobject thiz, jint lcd_fd, jstring jl1, jstring jl2) {
+Java_com_company_my_alchoholic_sensor_iorequest_WriteLcdRequest_showLcd(JNIEnv *env, jobject thiz, jint lcd_fd, jstring jl1, jstring jl2) {
     if (lcd_fd < 0) return -1;
     int pos = 0;
     const char* l1 = env->GetStringUTFChars(jl1, 0);

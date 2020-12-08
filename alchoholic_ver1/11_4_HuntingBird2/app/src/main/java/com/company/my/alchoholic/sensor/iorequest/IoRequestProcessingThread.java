@@ -38,7 +38,7 @@ public class IoRequestProcessingThread implements Runnable{
             IoRequest request = requests.poll();
             if (request != null && request.isSkipped() != true){
                 request.processRequest();
-                System.out.println("processing request");
+                //System.out.println("processing request");
                 try {
                     Thread.sleep(REQ_DELAY);
                 } catch (InterruptedException e) {
