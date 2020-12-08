@@ -27,15 +27,16 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_loadSensors(JNIEnv *env, jo
 
     jint* buf;
 
+    int flags = O_RDWR;
     buf = env->GetIntArrayElements(arr, JNI_FALSE);
-    buf[0] = open("/dev/led", O_RDWR);
-    buf[1] = open("/dev/7segment", O_RDWR);
-    buf[2] = open("/dev/dotmatrix", O_RDWR);
-    buf[3] = open("/dev/lcd", O_RDWR);
-    buf[4] = open("/dev/push", O_RDWR);
-    buf[5] = open("/dev/motor", O_RDWR);
-    buf[6] = open("/dev/buzzer", O_RDWR);
-    buf[7] = open("/dev/switch", O_RDWR);
+    buf[0] = open("/dev/led", flags);
+    buf[1] = open("/dev/7segment", flags);
+    buf[2] = open("/dev/dotmatrix", flags);
+    buf[3] = open("/dev/lcd", flags);
+    buf[4] = open("/dev/push", flags);
+    buf[5] = open("/dev/motor", flags);
+    buf[6] = open("/dev/buzzer", flags);
+    buf[7] = open("/dev/switch", flags);
     env->ReleaseIntArrayElements(arr, buf, 0);
     return 0;
 }
@@ -65,57 +66,45 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_unloadSensors(JNIEnv *env, 
 extern "C" JNIEXPORT jint JNICALL
 Java_com_company_my_alchoholic_sensor_SensorInstance_dotmSpin(JNIEnv *env, jobject thiz, jint dotm_fd) {
     if (dotm_fd < 0) return -1;
-    __android_log_print(ANDROID_LOG_DEBUG, "Test", "enter dotmSpin");
+    __android_log_print(ANDROID_LOG_DEBUG, "dotmSpin", "enter dotmSpin");
     unsigned char buf[6] = { 0, 1, 2, 3, 4, 5 };
     for (int j = 0; j < 2; j ++){
         write(dotm_fd, buf, 6);
         for (int i = 0; i < 40; i++) {
             ioctl(dotm_fd, DOTM_SPIN, NULL, _IOC_SIZE(DOTM_SPIN));
-            usleep(1000*50);
+            usleep(1000*50);z
         }
     }
-    ioctl(dotm_fd, DOTM_SET_CLEAR, NULL, _IOC_SIZE(DOTM_SPIN));
+    ioctl(dotm_fd, DOTM_SET_CLEAR, NULL, _IOC_SIZE(DOTM_SET_CLEAR));
+    __android_log_print(ANDROID_LOG_DEBUG, "dotmSpin", "done dotmSpin");
     return 0;
 }
 
 extern "C" JNIEXPORT jint JNICALL
 Java_com_company_my_alchoholic_sensor_SensorInstance_dotmPop(JNIEnv *env, jobject thiz, jint dotm_fd) {
     if (dotm_fd < 0) return -1;
-    __android_log_print(ANDROID_LOG_DEBUG, "Test", "enter dotmSpin");
-    unsigned char buf[6] = { 0, 1, 2, 3, 4, 5 };
-    for (int j = 0; j < 2; j ++){
-        write(dotm_fd, buf, 6);
-        for (int i = 0; i < 40; i++) {
-            ioctl(dotm_fd, DOTM_POP, NULL, _IOC_SIZE(DOTM_SPIN));
-            usleep(1000*50);
-        }
-    }
-    ioctl(dotm_fd, DOTM_SET_CLEAR, NULL, _IOC_SIZE(DOTM_SPIN));
+    __android_log_print(ANDROID_LOG_DEBUG, "dotmPop", "enter dotm Pop");
+    ioctl(dotm_fd, DOTM_POP, NULL, _IOC_SIZE(DOTM_POP));
+    __android_log_print(ANDROID_LOG_DEBUG, "dotmPop", "done dotm Pop");
     return 0;
 }
 
 extern "C" JNIEXPORT jint JNICALL
 Java_com_company_my_alchoholic_sensor_SensorInstance_dotmBomb(JNIEnv *env, jobject thiz, jint dotm_fd) {
     if (dotm_fd < 0) return -1;
-    __android_log_print(ANDROID_LOG_DEBUG, "Test", "enter dotmSpin");
-    unsigned char buf[6] = { 0, 1, 2, 3, 4, 5 };
-    for (int j = 0; j < 2; j ++){
-        write(dotm_fd, buf, 6);
-        for (int i = 0; i < 40; i++) {
-            ioctl(dotm_fd, DOTM_BOMB, NULL, _IOC_SIZE(DOTM_SPIN));
-            usleep(1000*50);
-        }
-    }
-    ioctl(dotm_fd, DOTM_SET_CLEAR, NULL, _IOC_SIZE(DOTM_SPIN));
+    __android_log_print(ANDROID_LOG_DEBUG, "dotmBomb", "enter dotm bomb");
+    ioctl(dotm_fd, DOTM_BOMB, NULL, _IOC_SIZE(DOTM_BOMB));
+    __android_log_print(ANDROID_LOG_DEBUG, "dotmBomb", "done dotm bomb");
     return 0;
 }
 
 extern "C" JNIEXPORT jint JNICALL
 Java_com_company_my_alchoholic_sensor_SensorInstance_motorSpin
 (JNIEnv *env, jobject thiz, jint motor_fd, jint speed, jint second) {
-
+    __android_log_print(ANDROID_LOG_DEBUG, "motorSpin", "enter motorSpin");
     unsigned char buf[4] = { 1, 1, static_cast<unsigned char>(speed), static_cast<unsigned char>(second) };
     write(motor_fd, buf, 4);
+    __android_log_print(ANDROID_LOG_DEBUG, "motorSpin", "done motorSpin");
     return 0;
 }
 
@@ -156,19 +145,19 @@ extern "C" JNIEXPORT jint JNICALL
 Java_com_company_my_alchoholic_sensor_SensorInstance_showLed(JNIEnv *env, jobject thiz, jint led_fd, jint amount) {
     if (led_fd < 0) return -1;
     unsigned char data = static_cast<unsigned char>(amount);
-    int i,pow, j, num;
-    if(data != 0) {
-        for(i=0; i<data; i++) {
-            pow = 1;
-            for(j=0;j<i;j++) {
-                pow *= 2;
-            }
-            num += pow;
+    __android_log_print(ANDROID_LOG_DEBUG, "showLed", "enter showLed %d", data);
+    if (data != 0){
+        int num = 1;
+        for(int i=1; i<data; i++) {
+            num = num << 1;
+            num += 1;
         }
         data = num;
     }
     unsigned char bytevalue[1] = { data };
+    __android_log_print(ANDROID_LOG_DEBUG, "showLed", "processing showLed %d", data);
     write(led_fd, bytevalue, 1);
+    __android_log_print(ANDROID_LOG_DEBUG, "showLed", "done showLed %d", amount);
     return 0;
 }
 
@@ -180,12 +169,14 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_showLcd(JNIEnv *env, jobjec
     if (lcd_fd < 0) return -1;
     int pos = 0;
     const char* l1 = env->GetStringUTFChars(jl1, 0);
+    __android_log_print(ANDROID_LOG_DEBUG, "showLcd", "line 1 [%s], %d", l1, strlen(l1));
     ioctl(lcd_fd, LCD_SET_CURSOR_POS, &pos, _IOC_SIZE(LCD_SET_CURSOR_POS));
     write(lcd_fd, l1, strlen(l1));
     env->ReleaseStringUTFChars(jl1, l1);
 
     pos = 16;
     const char* l2 = env->GetStringUTFChars(jl2, 0);
+    __android_log_print(ANDROID_LOG_DEBUG, "showLcd", "line 2 [%s], %d", l2, strlen(l2));
     ioctl(lcd_fd, LCD_SET_CURSOR_POS, &pos, _IOC_SIZE(LCD_SET_CURSOR_POS));
     write(lcd_fd, l2, strlen(l2));
     env->ReleaseStringUTFChars(jl2, l2);
