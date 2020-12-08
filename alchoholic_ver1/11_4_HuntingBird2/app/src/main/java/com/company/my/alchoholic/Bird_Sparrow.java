@@ -118,6 +118,7 @@ public class Bird_Sparrow {
      //   System.out.println("새위치 가로: "+x);
       //  System.out.println("새위치 세로: "+y);
         //터치에 해당하는 넓이에 참새가 있는가? 로 변경
+        /*
         float dist = (px - x) * (px - x) + (py - y) * (py - y);
         if (dist < h * h * 0.7f) {
             dir.y = speed;
@@ -126,7 +127,7 @@ public class Bird_Sparrow {
             // 추락시 180도 회전
             ang = 180;
         }
-
+*/
         if(px<250){
             if(x<250){
                     dir.y = speed;
@@ -136,7 +137,7 @@ public class Bird_Sparrow {
 
         }
         else if((250<=px)& (px<450)){
-            if((250<=x)& (x<450)){
+            if((300<=x)& (x<400)){
                 dir.y = speed;
                 dir.x = 0;
                 // 추락시 180도 회전

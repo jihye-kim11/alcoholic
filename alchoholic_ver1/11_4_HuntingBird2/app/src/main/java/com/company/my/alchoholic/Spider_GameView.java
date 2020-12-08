@@ -58,6 +58,7 @@ public class Spider_GameView extends View {
         dbAdapter.clear();
         dbAdapter.insert("0");//첫 시작에서만 0
         dbAdapter.close();
+        sensor.showLed(0);//시작시 센서 초기화
         // 리소스 설정
         Spider_CommonResources.set(context);
 
