@@ -85,6 +85,7 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_dotmPop(JNIEnv *env, jobjec
     if (dotm_fd < 0) return -1;
     __android_log_print(ANDROID_LOG_DEBUG, "dotmPop", "enter dotm Pop");
     ioctl(dotm_fd, DOTM_POP, NULL, _IOC_SIZE(DOTM_POP));
+    ioctl(dotm_fd, DOTM_SET_CLEAR, NULL, _IOC_SIZE(DOTM_SET_CLEAR));
     __android_log_print(ANDROID_LOG_DEBUG, "dotmPop", "done dotm Pop");
     return 0;
 }
@@ -94,7 +95,17 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_dotmBomb(JNIEnv *env, jobje
     if (dotm_fd < 0) return -1;
     __android_log_print(ANDROID_LOG_DEBUG, "dotmBomb", "enter dotm bomb");
     ioctl(dotm_fd, DOTM_BOMB, NULL, _IOC_SIZE(DOTM_BOMB));
+    ioctl(dotm_fd, DOTM_SET_CLEAR, NULL, _IOC_SIZE(DOTM_SET_CLEAR));
     __android_log_print(ANDROID_LOG_DEBUG, "dotmBomb", "done dotm bomb");
+    return 0;
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_company_my_alchoholic_sensor_SensorInstance_dotmClear(JNIEnv *env, jobject thiz, jint dotm_fd) {
+    if (dotm_fd < 0) return -1;
+    __android_log_print(ANDROID_LOG_DEBUG, "dotmClear", "enter dotm clear");
+    ioctl(dotm_fd, DOTM_SET_CLEAR, NULL, _IOC_SIZE(DOTM_SET_CLEAR));
+    __android_log_print(ANDROID_LOG_DEBUG, "dotmClear", "done dotm clear");
     return 0;
 }
 

@@ -23,6 +23,7 @@ public class SensorInstance implements Sensor{
     private native int dotmSpin(int dotmFd);
     private native int dotmPop(int dotmFd);
     private native int dotmBomb(int dotmFd);
+    private native int dotmClear(int dotmFd);
     private native int motorSpin(int motorFd, int speed, int second);
     private native int show7Segment(int segFd, int d1, int d2, int d3, int d4);
     private native int showLed(int ledFd, int amount);
@@ -109,7 +110,14 @@ public class SensorInstance implements Sensor{
     public void stopAnimatedDot() {}
 
     @Override
-    public void clearDot() {}
+    public void clearDot() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                dotmClear(fds[SensorType.DOT_MATRIX.getSensorCode()]);
+            }
+        }).start();
+    }
 
     @Override
     public void registerButtonCallback(int btnNum, ButtonCallback callback) {
