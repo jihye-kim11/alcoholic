@@ -173,7 +173,13 @@ public class SensorInstance implements Sensor{
     public void showLed(int amount) {
         if (0 > amount) amount = 0;
         if (amount > 8) amount = 8;
-        showLed(fds[SensorType.LED.getSensorCode()], amount);
+        final int temp = amount;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                showLed(fds[SensorType.LED.getSensorCode()], temp);
+            }
+        }).start();
     }
 
     private String[] lines = { "", "" };
