@@ -69,23 +69,22 @@ ssize_t lcd_write(struct file *pinode, const char *gdata, size_t len, loff_t *of
                 return -EFAULT;
         }
 
-        for (i=0; i<len; i+=2){
-                wordvalue = ((unsigned short) buf[i]) << 8 & 0xFF00;
-                wordvalue = wordvalue | (((unsigned short) buf[i+1]) & 0x00FF);
+        for (i=0; i<16; i+=2){
+                if(i<len) {
+                        wordvalue = ((unsigned short) buf[i]) << 8 & 0xFF00;
+                        wordvalue = wordvalue | (((unsigned short) buf[i+1]) & 0x00FF);
+                }
+                else {
+                        wordvalue = ((unsigned short)' ') << 8 & 0xFF00;
+                        wordvalue = wordvalue | (((unsigned short)' ') & 0x00FF);
+                }
 
                 __lcd_write(wordvalue, lcd_cursor_pos);
 
                 lcd_cursor_pos += 2;
                 lcd_cursor_pos = lcd_cursor_pos % LCD_NUM_CHARS;
         }
-        for(i=len; i<16; i+=2){
-                wordvalue = ((unsigned short)' ') << 8 & 0xFF00;
-                wordvalue = wordvalue | (((unsigned short)' ') & 0x00FF);
-                __lcd_write(wordvalue, lcd_cursor_pos);
-                lcd_cursor_pos += 2;
-              lcd_cursor_pos = lcd_cursor_pos % LCD_NUM_CHARS;
-        }
-
+        
         return len;
 }
 
