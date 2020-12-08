@@ -82,12 +82,6 @@ int dotm_open(struct inode *pinode, struct file *pfile)
         return 0;
 }
 
-int dotm_release(struct inode *pinode, struct file *pfile)
-{
-        dotm_in_use = 0;
-        return 0;
-}
-
 ssize_t dotm_write(struct file *pinode, const char *gdata, size_t len, loff_t *off_what)
 {
         int ret, i;
@@ -116,7 +110,7 @@ ssize_t dotm_write(struct file *pinode, const char *gdata, size_t len, loff_t *o
 
 static long dotm_ioctl(struct file *pinode, unsigned int cmd, unsigned long data)
 {
-        int i, j, k;
+        int i;
         unsigned short wordvalue;
         unsigned char next_word[10];
         int next_word_index;
@@ -166,26 +160,16 @@ static long dotm_ioctl(struct file *pinode, unsigned int cmd, unsigned long data
                 break;
 
         case DOTM_POP:
-                for (i=0; i<3; i++){
-                        for(j=0; j<4; j++) {
-                                msleep(30);
-                                for (k=0; k<10;k++){
-                                        wordvalue = dotm_fontmap_pop[j][k] & 0x7F;
-                                        iom_fpga_itf_write((unsigned int) DOTM_ADDR+(k*2), wordvalue);
-                                }
-                        }
+                for (i=0; i<10; i++){
+                        wordvalue = dotm_fontmap_pop[data][i] & 0x7F;
+                        iom_fpga_itf_write((unsigned int) DOTM_ADDR+(i*2), wordvalue);
                 }
                 break;
 
         case DOTM_BOMB:
-                for (i=0; i<3; i++){
-                        for(j=0; j<4; j++) {
-                                msleep(30);
-                                for (k=0; k<10;k++){
-                                        wordvalue = dotm_fontmap_bomb[j][k] & 0x7F;
-                                        iom_fpga_itf_write((unsigned int) DOTM_ADDR+(k*2), wordvalue);
-                                }
-                        }
+                for (i=0; i<10; i++){
+                        wordvalue = dotm_fontmap_bomb[data][i] & 0x7F;
+                        iom_fpga_itf_write((unsigned int) DOTM_ADDR+(i*2), wordvalue);
                 }
                 break;
         }
@@ -225,3 +209,5 @@ module_exit(dot_exit);
 MODULE_AUTHOR(DRIVER_AUTHOR);
 MODULE_DESCRIPTION(DRIVER_DESC);
 MODULE_LICENSE("Dual BSD/GPL");
+
+
