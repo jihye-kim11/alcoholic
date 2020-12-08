@@ -51,6 +51,9 @@ public class Bird_GameView extends View {
     myDBAdapter dbAdapter;
     //센서
     final Sensor sensor = SensorInstance.getInstance();
+
+    private ButtonCallback bc6, bc7, bc8;
+
     //--------------------------------
     // 생성자
     //---------------------------------
@@ -71,25 +74,25 @@ public class Bird_GameView extends View {
 
         dbAdapter = new myDBAdapter(context);
 
-        sensor.registerButtonCallback(6, new ButtonCallback() {
+        bc6 = new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
                 if (value==1){System.out.println("6 번 클릭");
                     sensor.startAnimatedDot(1);
-                fireBullet( 500, 100 );}   // 발사
+                    fireBullet( 500, 100 );}   // 발사
             }
-        });
+        };
 
-        sensor.registerButtonCallback(7, new ButtonCallback() {
+        bc7 = new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
                 if (value==1){System.out.println("7 번 클릭");
                     sensor.startAnimatedDot(1);
-                fireBullet( 300, 100 );}   // 발사
+                    fireBullet( 300, 100 );}   // 발사
             }
-        });
+        };
 
-        sensor.registerButtonCallback(8, new ButtonCallback() {
+        bc8 = new ButtonCallback() {
             @Override
             public void onButtonClick(int value) {
                 if (value==1) {
@@ -98,7 +101,13 @@ public class Bird_GameView extends View {
                     fireBullet(100, 100);
                 }// 발사
             }
-        });
+        };
+
+        sensor.registerButtonCallback(6, bc6);
+
+        sensor.registerButtonCallback(7, bc7);
+
+        sensor.registerButtonCallback(8, bc8);
 
         // 롤리팝 이전 버전인가?
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -271,6 +280,16 @@ public class Bird_GameView extends View {
             fireBullet( event.getX(), event.getY() );   // 발사
         }
         return true;
+    }
+
+    /**
+     * 게임 끝났을 때 호출되는 메소드
+     * @author jomingyu
+     */
+    public void gameDone() {
+        sensor.unregisterButtonCallback(6, bc6);
+        sensor.unregisterButtonCallback(7, bc7);
+        sensor.unregisterButtonCallback(8, bc8);
     }
 
     //-----------------------------

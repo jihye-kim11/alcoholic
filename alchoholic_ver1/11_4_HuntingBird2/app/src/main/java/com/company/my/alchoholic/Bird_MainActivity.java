@@ -33,6 +33,7 @@ public class Bird_MainActivity extends AppCompatActivity {
                 dbAdapter.open();
                 String score = dbAdapter.Open();
                 dbAdapter.close();
+                ( (Bird_GameView)findViewById(R.id.gameView) ).gameDone();
                 System.out.println("점수:"+score);
                 if(score.equals("1")){
                     Intent intent = new Intent(getApplicationContext(), success.class);
