@@ -18,9 +18,8 @@ public class success extends AppCompatActivity {
             public void run()
             {
                 Intent intent = new Intent(getApplicationContext(), mainpage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                finish();
-
             }
         }, 1500);//1.5초동안 진행
 

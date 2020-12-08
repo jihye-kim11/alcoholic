@@ -19,7 +19,7 @@
 
         <activity android:name=".loading" />
         <activity android:name=".select" />
-        <activity android:name=".mainpage">
+        <activity android:name=".mainpage" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
