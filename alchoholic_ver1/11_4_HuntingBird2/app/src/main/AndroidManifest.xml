@@ -15,22 +15,17 @@
         </activity>
         <activity android:name=".bubble_info">
         </activity>
-        <activity android:name=".bird_info" >
+        <activity android:name=".bird_info" ></activity>
 
-        </activity>
-
-        <activity android:name=".loading" >
-
-    </activity>
+        <activity android:name=".loading" />
         <activity android:name=".select" />
-        <activity android:name=".mainpage" >
+        <activity android:name=".mainpage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>>
+            </intent-filter>
         </activity>
-
         <activity
             android:name=".Bird_MainActivity"
             android:label="@string/app_name"
