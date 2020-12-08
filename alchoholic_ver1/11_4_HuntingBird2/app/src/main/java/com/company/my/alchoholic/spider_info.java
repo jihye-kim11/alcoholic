@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.company.my.alchoholic.sensor.Sensor;
+import com.company.my.alchoholic.sensor.SensorInstance;
+
 public class spider_info extends AppCompatActivity {
     private ImageButton button1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final Sensor sensor = SensorInstance.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spider_info);
+        sensor.showLcd(0,"spider");
         button1=(ImageButton)findViewById(R.id.imageButton_spider);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,6 +10,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.company.my.alchoholic.sensor.Sensor;
+import com.company.my.alchoholic.sensor.SensorInstance;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +41,8 @@ public class Bubble_GameView extends View {
     static public List<Bubble_SmallBubble> mSmall = Collections.synchronizedList( new ArrayList<Bubble_SmallBubble>() );
     //sqlite
     myDBAdapter dbAdapter;
+    //센서
+    final Sensor sensor = SensorInstance.getInstance();
     //-----------------------------
     // 생성자
     //-----------------------------
@@ -146,6 +151,7 @@ public class Bubble_GameView extends View {
                     score +=100;
                     //여기다가 7segment 추가하여 score 변동할때마다 출력하기!
                     System.out.println(score);
+                    sensor.show7Seg(score);
                    //점수 db에 저장
                     dbAdapter.open();
                     dbAdapter.clear();

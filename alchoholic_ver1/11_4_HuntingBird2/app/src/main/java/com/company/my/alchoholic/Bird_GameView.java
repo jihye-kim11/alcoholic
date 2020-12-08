@@ -49,6 +49,8 @@ public class Bird_GameView extends View {
     private List<Bird_Sparrow> mSparrow;
     //sqlite
     myDBAdapter dbAdapter;
+    //센서
+    final Sensor sensor = SensorInstance.getInstance();
     //--------------------------------
     // 생성자
     //---------------------------------
@@ -64,8 +66,7 @@ public class Bird_GameView extends View {
         mPlayer.setLooping(true);
         mPlayer.start();
         
-        //센서
-        final Sensor sensor = SensorInstance.getInstance();
+
        // sensor.readySensor();
 
         dbAdapter = new myDBAdapter(context);
@@ -74,6 +75,7 @@ public class Bird_GameView extends View {
             @Override
             public void onButtonClick(int value) {
                 if (value==1){System.out.println("6 번 클릭");
+                    sensor.startAnimatedDot(1);
                 fireBullet( 500, 100 );}   // 발사
             }
         });
@@ -82,6 +84,7 @@ public class Bird_GameView extends View {
             @Override
             public void onButtonClick(int value) {
                 if (value==1){System.out.println("7 번 클릭");
+                    sensor.startAnimatedDot(1);
                 fireBullet( 300, 100 );}   // 발사
             }
         });
@@ -91,6 +94,7 @@ public class Bird_GameView extends View {
             public void onButtonClick(int value) {
                 if (value==1) {
                     System.out.println("8 번 클릭" + value);
+                    sensor.startAnimatedDot(1);
                     fireBullet(100, 100);
                 }// 발사
             }
@@ -232,6 +236,8 @@ public class Bird_GameView extends View {
         miss = isHit ? miss : miss + 1;
         //여기다가 7segment 추가하여 score 변동할때마다 출력하기!
         System.out.println(hit+"수만큼 hit");
+        sensor.show7Seg(hit);
+
         //점수 db에 저장
         dbAdapter.open();
         dbAdapter.clear();

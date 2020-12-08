@@ -10,6 +10,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.company.my.alchoholic.sensor.Sensor;
+import com.company.my.alchoholic.sensor.SensorInstance;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +45,8 @@ public class Spider_GameView extends View {
     private Spider spider;
     //sqlite
     myDBAdapter dbAdapter;
+    //센서
+    final Sensor sensor = SensorInstance.getInstance();
     //-----------------------------
     // 생성자
     //-----------------------------
@@ -180,9 +185,40 @@ public class Spider_GameView extends View {
                 //점수 db에 저장
                 dbAdapter.open();
                 dbAdapter.clear();
-                if(killCount>=8){
+                if(killCount==1){
+                    //led 0 켜기
+                    sensor.showLed(0);
+                    dbAdapter.insert("0");}
+                else if(killCount==2){
+                    //led 1 켜기
+                    sensor.showLed(1);
+                    dbAdapter.insert("0");}
+                else if(killCount==3){
+                    //led 1 켜기
+                    sensor.showLed(2);
+                    dbAdapter.insert("0");}
+                else if(killCount==4){
+                    //led 1 켜기
+                    sensor.showLed(3);
+                    dbAdapter.insert("0");}
+                else if(killCount==5){
+                    //led 1 켜기
+                    sensor.showLed(4);
+                    dbAdapter.insert("0");}
+                else if(killCount==6){
+                    //led 1 켜기
+                    sensor.showLed(5);
+                    dbAdapter.insert("0");}
+                else if(killCount==7){
+                    //led 1 켜기
+                    sensor.showLed(6);
+                    dbAdapter.insert("0");}
+                else if(killCount==8){
+                    //led 1 켜기
+                    sensor.showLed(6);
                     dbAdapter.insert("1");}
-                else{dbAdapter.insert("0");}
+                else if(killCount>=9){
+                    dbAdapter.insert("1");}
                 dbAdapter.close();
             }
         }

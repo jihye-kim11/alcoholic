@@ -25,9 +25,13 @@ public class loading extends AppCompatActivity {
         int randomTime = (int)(Math.random() * 5) + 5;
         System.out.println("radom time " + randomTime);
 
-        sensor.runMotor( 1, 10, randomTime);
+       // sensor.runMotor( 1, 10, randomTime);
         sensor.startAnimatedDot(0);
-
+       // sensor.show7Seg(1244);
+      //  sensor.showLed(3);
+       // sensor.showLed(4);
+       // sensor.showLed(5);
+       // sensor.showLcd(0,"hunting bird");
         new Handler().postDelayed(new Runnable()
         {
             @Override
