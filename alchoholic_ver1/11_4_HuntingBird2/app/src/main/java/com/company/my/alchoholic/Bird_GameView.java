@@ -70,11 +70,7 @@ public class Bird_GameView extends View {
         // 참새
         mSparrow = Collections.synchronizedList( new ArrayList<Bird_Sparrow>() );
 
-        // 배경 음악
-        mPlayer = MediaPlayer.create(context, R.raw.rondo);
-        mPlayer.setLooping(true);
-        mPlayer.start();
-        
+
 
        // sensor.readySensor();
 
@@ -132,8 +128,7 @@ public class Bird_GameView extends View {
             mSound = new SoundPool.Builder().setAudioAttributes(attributes).setMaxStreams(5).build();
         }
 
-        // Sound 파일 읽기
-        soundId = mSound.load(context, R.raw.fire, 1);
+
 
         // 점수의 글자 크기와 색
         paint.setTextSize(60);

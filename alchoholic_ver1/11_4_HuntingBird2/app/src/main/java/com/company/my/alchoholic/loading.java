@@ -24,7 +24,7 @@ public class loading extends AppCompatActivity {
 
         int randomTime = (int)(Math.random() * 5) + 5;
         System.out.println("radom time " + randomTime);
-
+        
         sensor.runMotor( 1, 10, randomTime);
         sensor.startAnimatedDot(0);
         sensor.showLcd("turning", "tunring");
