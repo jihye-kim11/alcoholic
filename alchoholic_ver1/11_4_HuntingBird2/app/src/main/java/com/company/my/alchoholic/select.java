@@ -30,26 +30,26 @@ public class select extends AppCompatActivity {
             }
         });
         btn2=(ImageButton)findViewById(R.id.button2);
-        btn2.setOnClickListener(new  OnSingleClickListener() {//헌팅버드
+        btn2.setOnClickListener(new  View.OnClickListener() {//헌팅버드
             @Override
-            public void onSingleClick(View v) {
+            public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), bird_info.class);
                 startActivity(intent);
             }
         });
         btn3=(ImageButton)findViewById(R.id.button3);
-        btn3.setOnClickListener(new  OnSingleClickListener() {//스파이더
+        btn3.setOnClickListener(new  View.OnClickListener() {//스파이더
             @Override
-            public void onSingleClick(View v) {
+            public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), spider_info.class);
                 startActivity(intent);
             }
         });
 
         btn4=(ImageButton)findViewById(R.id.button4);
-        btn4.setOnClickListener(new  OnSingleClickListener() {//스파이더
+        btn4.setOnClickListener(new  View.OnClickListener() {//스파이더
             @Override
-            public void onSingleClick(View v) {
+            public void onClick(View v) {
                 finish();
                 Intent intent = new Intent(getApplicationContext(), loading.class);
                 startActivity(intent);
@@ -108,25 +108,5 @@ public class select extends AppCompatActivity {
         sensor.unregisterButtonCallback(7, btnCallback7);
         sensor.unregisterButtonCallback(8, btnCallback8);
     }
-    public abstract class OnSingleClickListener implements View.OnClickListener{
 
-        //중복 클릭 방지 시간 설정 ( 해당 시간 이후에 다시 클릭 가능 )
-        private static final long MIN_CLICK_INTERVAL = 5000;
-        private long mLastClickTime = 0;
-
-        public abstract void onSingleClick(View v);
-
-        @Override
-        public final void onClick(View v) {
-            long currentClickTime = SystemClock.uptimeMillis();
-            long elapsedTime = currentClickTime - mLastClickTime;
-            mLastClickTime = currentClickTime;
-
-            // 중복클릭 아닌 경우
-            if (elapsedTime > MIN_CLICK_INTERVAL) {
-                onSingleClick(v);
-                System.out.println("정상 클릭");
-            }
-        }
-    }
 }
