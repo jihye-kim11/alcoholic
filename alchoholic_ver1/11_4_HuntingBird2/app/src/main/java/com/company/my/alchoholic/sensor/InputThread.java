@@ -28,11 +28,13 @@ public class InputThread implements Runnable{
     }
 
     public void start(){
+        thread.setDaemon(true);
         thread.start();
     }
 
     @Override
     public void run() {
+        System.out.println("InputThread Start!");
         while(true){
             ioReqThread.addRequest(
                     new ReadButtonRequest(
@@ -42,7 +44,7 @@ public class InputThread implements Runnable{
             );
 
             try {
-                Thread.sleep(25);
+                Thread.sleep(45);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -55,7 +57,7 @@ public class InputThread implements Runnable{
             );
 
             try {
-                Thread.sleep(25);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
