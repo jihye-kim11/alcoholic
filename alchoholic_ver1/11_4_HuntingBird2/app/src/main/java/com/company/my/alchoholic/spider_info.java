@@ -17,6 +17,7 @@ public class spider_info extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spider_info);
         sensor.showLcd(0,"spider");
+        sensor.showLed(0);//led 다 끄고 시작
         button1=(ImageButton)findViewById(R.id.imageButton_spider);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override

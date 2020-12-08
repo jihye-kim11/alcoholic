@@ -65,6 +65,7 @@ public class Spider_GameView extends View {
         // 나비, Poison
         mFly = Collections.synchronizedList( new ArrayList<Spider_Butterfly>() );
         mPoison = Collections.synchronizedList( new ArrayList<Spider_Poison>() );
+
     }
 
     //-----------------------------
@@ -187,35 +188,35 @@ public class Spider_GameView extends View {
                 dbAdapter.clear();
                 if(killCount==1){
                     //led 0 켜기
-                    sensor.showLed(0);
+                    sensor.showLed(1);
                     dbAdapter.insert("0");}
                 else if(killCount==2){
                     //led 1 켜기
-                    sensor.showLed(1);
+                    sensor.showLed(2);
                     dbAdapter.insert("0");}
                 else if(killCount==3){
                     //led 1 켜기
-                    sensor.showLed(2);
+                    sensor.showLed(3);
                     dbAdapter.insert("0");}
                 else if(killCount==4){
                     //led 1 켜기
-                    sensor.showLed(3);
+                    sensor.showLed(4);
                     dbAdapter.insert("0");}
                 else if(killCount==5){
                     //led 1 켜기
-                    sensor.showLed(4);
+                    sensor.showLed(5);
                     dbAdapter.insert("0");}
                 else if(killCount==6){
                     //led 1 켜기
-                    sensor.showLed(5);
+                    sensor.showLed(6);
                     dbAdapter.insert("0");}
                 else if(killCount==7){
                     //led 1 켜기
-                    sensor.showLed(6);
+                    sensor.showLed(7);
                     dbAdapter.insert("0");}
                 else if(killCount==8){
                     //led 1 켜기
-                    sensor.showLed(6);
+                    sensor.showLed(8);
                     dbAdapter.insert("1");}
                 else if(killCount>=9){
                     dbAdapter.insert("1");}
