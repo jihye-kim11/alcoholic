@@ -54,6 +54,10 @@ public class Spider_GameView extends View {
         super(context, attrs);
         this.context = context;
         dbAdapter = new myDBAdapter(context);
+        dbAdapter.open();
+        dbAdapter.clear();
+        dbAdapter.insert("0");//첫 시작에서만 0
+        dbAdapter.close();
         // 리소스 설정
         Spider_CommonResources.set(context);
 
@@ -184,43 +188,64 @@ public class Spider_GameView extends View {
                 // 나비 초기화
                 mFly.get(i).init();
                 //점수 db에 저장
-                dbAdapter.open();
-                dbAdapter.clear();
+
                 if(killCount==1){
                     //led 0 켜기
                     sensor.showLed(1);
-                    dbAdapter.insert("0");}
+                    dbAdapter.open();
+                    dbAdapter.clear();
+                    dbAdapter.insert("0");
+                    dbAdapter.close();}
                 else if(killCount==2){
                     //led 1 켜기
                     sensor.showLed(2);
-                    dbAdapter.insert("0");}
+                    dbAdapter.open();
+                    dbAdapter.clear();
+                    dbAdapter.insert("0");
+                    dbAdapter.close();}
                 else if(killCount==3){
                     //led 1 켜기
                     sensor.showLed(3);
-                    dbAdapter.insert("0");}
+                    dbAdapter.open();
+                    dbAdapter.clear();
+                    dbAdapter.insert("0");
+                    dbAdapter.close();}
                 else if(killCount==4){
                     //led 1 켜기
                     sensor.showLed(4);
-                    dbAdapter.insert("0");}
+                    dbAdapter.open();
+                    dbAdapter.clear();
+                    dbAdapter.insert("0");
+                    dbAdapter.close();}
                 else if(killCount==5){
                     //led 1 켜기
                     sensor.showLed(5);
-                    dbAdapter.insert("0");}
+                    dbAdapter.open();
+                    dbAdapter.clear();
+                    dbAdapter.insert("0");
+                    dbAdapter.close();}
                 else if(killCount==6){
                     //led 1 켜기
                     sensor.showLed(6);
-                    dbAdapter.insert("0");}
+                    dbAdapter.open();
+                    dbAdapter.clear();
+                    dbAdapter.insert("0");
+                    dbAdapter.close();}
                 else if(killCount==7){
                     //led 1 켜기
                     sensor.showLed(7);
-                    dbAdapter.insert("0");}
+                    dbAdapter.open();
+                    dbAdapter.clear();
+                    dbAdapter.insert("0");
+                    dbAdapter.close();}
                 else if(killCount==8){
                     //led 1 켜기
                     sensor.showLed(8);
-                    dbAdapter.insert("1");}
-                else if(killCount>=9){
-                    dbAdapter.insert("1");}
-                dbAdapter.close();
+                    dbAdapter.open();
+                    dbAdapter.clear();
+                    dbAdapter.insert("1");
+                    dbAdapter.close();}
+
             }
         }
 
