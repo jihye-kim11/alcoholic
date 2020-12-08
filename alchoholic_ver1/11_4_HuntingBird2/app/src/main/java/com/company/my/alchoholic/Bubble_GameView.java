@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -32,6 +36,8 @@ public class Bubble_GameView extends View {
     //점수
     private int score = 0;
 
+    //타이머
+    private int inputNumber = 10;
     // Random.
     private Random rnd = new Random();
     private Paint paint = new Paint();
@@ -57,6 +63,52 @@ public class Bubble_GameView extends View {
         dbAdapter.clear();
         dbAdapter.insert("0");//첫 시작에서만 0
         dbAdapter.close();
+
+        //타이머
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg){
+                /**
+                 * 넘겨받은 what값을 이용해 실행할 작업을 분류합니다
+                 */
+                if(msg.what==1){
+                    Log.d("What Number : ", "What is 1");
+                }else if(msg.what==2){
+                    Log.d("What Number : ", "What is 2");
+                }
+            }
+        };
+        Runnable task = new Runnable(){
+            public void run(){
+                while(inputNumber > 0){
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {}
+
+                    --inputNumber;
+                    /**
+                     * sendEmptyMessage은 단순한 int형 What을 전달하기 때문에
+                     * Message객체의 생성이 필요가 없습니다
+                     */
+                    handler.sendEmptyMessage(1);
+
+                    /**
+                     * sendMessage는 message객체를 넘겨주며,
+                     * 이때 what의 값, arg1, arg2등 int형 값을 줄수도 있고
+                     * intent등의 객체 전체를 넘길수도 있다 (message.obj = 겍체)
+                     */
+                    Message message= Message.obtain();
+                    message.what = 2;
+                    handler.sendMessage(message);
+                }
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.start();
+
+        // 점수의 글자 크기와 색
+        paint.setTextSize(60);
+        paint.setColor(Color.WHITE);
     }
 
     //-----------------------------
@@ -111,6 +163,8 @@ public class Bubble_GameView extends View {
                 canvas.drawBitmap(tmp.bubble, tmp.x - tmp.r, tmp.y - tmp.r, paint);
             }
         }
+        paint.setTextAlign(Paint.Align.LEFT);
+        canvas.drawText("남은 시간 : " + inputNumber, w / 2, 80, paint);
     }
 
     //-----------------------------

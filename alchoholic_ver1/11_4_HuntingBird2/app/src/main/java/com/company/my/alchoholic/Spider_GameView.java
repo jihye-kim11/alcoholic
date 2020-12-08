@@ -6,7 +6,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -35,6 +40,9 @@ public class Spider_GameView extends View {
     private int score = 0;
     private int killCount = 0;
     private float rate;
+
+    //타이머
+    private int inputNumber = 20;
 
     // 점수 표시용
     private Paint paint = new Paint();
@@ -68,8 +76,50 @@ public class Spider_GameView extends View {
         paint.setFakeBoldText(true);
 
         // 나비, Poison
-        mFly = Collections.synchronizedList( new ArrayList<Spider_Butterfly>() );
-        mPoison = Collections.synchronizedList( new ArrayList<Spider_Poison>() );
+        mFly = Collections.synchronizedList(new ArrayList<Spider_Butterfly>());
+        mPoison = Collections.synchronizedList(new ArrayList<Spider_Poison>());
+
+        //타이머
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg){
+                /**
+                 * 넘겨받은 what값을 이용해 실행할 작업을 분류합니다
+                 */
+                if(msg.what==1){
+                    Log.d("What Number : ", "What is 1");
+                }else if(msg.what==2){
+                    Log.d("What Number : ", "What is 2");
+                }
+            }
+        };
+        Runnable task = new Runnable(){
+            public void run(){
+                while(inputNumber > 0){
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {}
+
+                    --inputNumber;
+                    /**
+                     * sendEmptyMessage은 단순한 int형 What을 전달하기 때문에
+                     * Message객체의 생성이 필요가 없습니다
+                     */
+                    handler.sendEmptyMessage(1);
+
+                    /**
+                     * sendMessage는 message객체를 넘겨주며,
+                     * 이때 what의 값, arg1, arg2등 int형 값을 줄수도 있고
+                     * intent등의 객체 전체를 넘길수도 있다 (message.obj = 겍체)
+                     */
+                    Message message= Message.obtain();
+                    message.what = 2;
+                    handler.sendMessage(message);
+                }
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.start();
 
     }
 
@@ -131,15 +181,17 @@ public class Spider_GameView extends View {
         canvas.drawBitmap(spider.img, spider.x - spider.w, spider.y - spider.h, null);
 
         // 점수
+       // paint.setTextAlign(Paint.Align.LEFT);
+      //  canvas.drawText("득점 : " + score, 50, 80, paint);
+
+     //   paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText("득점 : " + score, 50, 80, paint);
+        canvas.drawText("남은 시간 : " + inputNumber, w / 2, 80, paint);
+        //canvas.drawText("포획 : " + killCount, w / 2, 80, paint);
 
-        paint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("포획 : " + killCount, w / 2, 80, paint);
-
-        rate = killCount / (spider.fireCnt + 0.001f) * 100;
-        paint.setTextAlign(Paint.Align.RIGHT);
-        canvas.drawText(String.format("명중률 : %4.1f%%", rate), w - 50, 80, paint);
+      //  rate = killCount / (spider.fireCnt + 0.001f) * 100;
+      //  paint.setTextAlign(Paint.Align.RIGHT);
+       // canvas.drawText(String.format("명중률 : %4.1f%%", rate), w - 50, 80, paint);
     }
 
     //-----------------------------
@@ -185,67 +237,68 @@ public class Spider_GameView extends View {
                 killCount++;
                 score += mFly.get(i).score;
                 //led 1개씩 켜기
-                System.out.println(killCount+"led 켜기");
+                System.out.println(killCount + "led 켜기");
                 // 나비 초기화
                 mFly.get(i).init();
                 //점수 db에 저장
 
-                if(killCount==1){
+                if (killCount == 1) {
                     //led 0 켜기
                     sensor.showLed(1);
                     dbAdapter.open();
                     dbAdapter.clear();
                     dbAdapter.insert("0");
-                    dbAdapter.close();}
-                else if(killCount==2){
+                    dbAdapter.close();
+                } else if (killCount == 2) {
                     //led 1 켜기
                     sensor.showLed(2);
                     dbAdapter.open();
                     dbAdapter.clear();
                     dbAdapter.insert("0");
-                    dbAdapter.close();}
-                else if(killCount==3){
+                    dbAdapter.close();
+                } else if (killCount == 3) {
                     //led 1 켜기
                     sensor.showLed(3);
                     dbAdapter.open();
                     dbAdapter.clear();
                     dbAdapter.insert("0");
-                    dbAdapter.close();}
-                else if(killCount==4){
+                    dbAdapter.close();
+                } else if (killCount == 4) {
                     //led 1 켜기
                     sensor.showLed(4);
                     dbAdapter.open();
                     dbAdapter.clear();
                     dbAdapter.insert("0");
-                    dbAdapter.close();}
-                else if(killCount==5){
+                    dbAdapter.close();
+                } else if (killCount == 5) {
                     //led 1 켜기
                     sensor.showLed(5);
                     dbAdapter.open();
                     dbAdapter.clear();
                     dbAdapter.insert("0");
-                    dbAdapter.close();}
-                else if(killCount==6){
+                    dbAdapter.close();
+                } else if (killCount == 6) {
                     //led 1 켜기
                     sensor.showLed(6);
                     dbAdapter.open();
                     dbAdapter.clear();
                     dbAdapter.insert("0");
-                    dbAdapter.close();}
-                else if(killCount==7){
+                    dbAdapter.close();
+                } else if (killCount == 7) {
                     //led 1 켜기
                     sensor.showLed(7);
                     dbAdapter.open();
                     dbAdapter.clear();
                     dbAdapter.insert("0");
-                    dbAdapter.close();}
-                else if(killCount==8){
+                    dbAdapter.close();
+                } else if (killCount == 8) {
                     //led 1 켜기
                     sensor.showLed(8);
                     dbAdapter.open();
                     dbAdapter.clear();
                     dbAdapter.insert("1");
-                    dbAdapter.close();}
+                    dbAdapter.close();
+                }
 
             }
         }
@@ -266,7 +319,7 @@ public class Spider_GameView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            spider.setAction( event.getX(), event.getY() );
+            spider.setAction(event.getX(), event.getY());
         }
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
