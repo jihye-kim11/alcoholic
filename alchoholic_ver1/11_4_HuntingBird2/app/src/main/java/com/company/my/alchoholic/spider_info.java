@@ -19,10 +19,22 @@ public class spider_info extends AppCompatActivity {
         setContentView(R.layout.activity_spider_info);
         sensor.showLcd(0,"spider");
         sensor.showLed(0);//led 다 끄고 시작
+        /*
         button1=(ImageButton)findViewById(R.id.imageButton_spider);
         button1.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(), Spider_MainActivity.class);
+                startActivity(intent);
+
+            }
+        });
+*/
+        button1=(ImageButton)findViewById(R.id.imageButton_spider);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
                 Intent intent = new Intent(getApplicationContext(), Spider_MainActivity.class);
                 startActivity(intent);

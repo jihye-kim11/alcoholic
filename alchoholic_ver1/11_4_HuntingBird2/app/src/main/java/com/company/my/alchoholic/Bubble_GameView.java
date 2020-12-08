@@ -78,6 +78,7 @@ public class Bubble_GameView extends View {
                 }
             }
         };
+        /*
         Runnable task = new Runnable(){
             public void run(){
                 while(inputNumber > 0){
@@ -86,17 +87,10 @@ public class Bubble_GameView extends View {
                     } catch (InterruptedException e) {}
 
                     --inputNumber;
-                    /**
-                     * sendEmptyMessage은 단순한 int형 What을 전달하기 때문에
-                     * Message객체의 생성이 필요가 없습니다
-                     */
+
                     handler.sendEmptyMessage(1);
 
-                    /**
-                     * sendMessage는 message객체를 넘겨주며,
-                     * 이때 what의 값, arg1, arg2등 int형 값을 줄수도 있고
-                     * intent등의 객체 전체를 넘길수도 있다 (message.obj = 겍체)
-                     */
+
                     Message message= Message.obtain();
                     message.what = 2;
                     handler.sendMessage(message);
@@ -105,10 +99,11 @@ public class Bubble_GameView extends View {
         };
         Thread thread = new Thread(task);
         thread.start();
+        */
 
         // 점수의 글자 크기와 색
-        paint.setTextSize(60);
-        paint.setColor(Color.WHITE);
+      //  paint.setTextSize(60);
+      //  paint.setColor(Color.WHITE);
     }
 
     //-----------------------------
@@ -163,8 +158,8 @@ public class Bubble_GameView extends View {
                 canvas.drawBitmap(tmp.bubble, tmp.x - tmp.r, tmp.y - tmp.r, paint);
             }
         }
-        paint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText("남은 시간 : " + inputNumber, w / 2, 80, paint);
+   //     paint.setTextAlign(Paint.Align.LEFT);
+    //    canvas.drawText("남은 시간 : " + inputNumber, w / 2, 80, paint);
     }
 
     //-----------------------------
@@ -172,7 +167,7 @@ public class Bubble_GameView extends View {
     //-----------------------------
     private void makeBubble() {
         synchronized (mBubble) {
-            if (mBubble.size() < 20 && rnd.nextInt(200) < 8) {//비눗방울 나오는 속도 조절
+            if (mBubble.size() < 20 && rnd.nextInt(400) < 8) {//비눗방울 나오는 속도 조절
                 mBubble.add(new Bubble(context, w, h));
             }
         }
