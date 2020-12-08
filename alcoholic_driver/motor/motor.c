@@ -15,6 +15,9 @@
 #define MOTOR_ADDR_DIR            0x00E
 #define MOTOR_ADDR_VEL            0x010
 
+#define MOTOR_MAGIC     0xBC
+#define MOTOR_SET_STOP  _IOW(MOTOR_MAGIC, 0, int)
+
 //gpio fpga interface
 extern ssize_t iom_fpga_itf_read(unsigned int addr);
 extern ssize_t iom_fpga_itf_write(unsigned int addr, unsigned short int value);
@@ -54,18 +57,25 @@ ssize_t motor_write(struct file *pinode, const char *gdata, size_t len, loff_t *
     wordvalue = input[2] & 0xFF;
     iom_fpga_itf_write((unsigned int) MOTOR_ADDR_VEL, wordvalue);
 
-    ssleep(input[3]);
-
-    wordvalue = 0x00;
-    iom_fpga_itf_write((unsigned int) MOTOR_ADDR_ACT, wordvalue);
-
     return len;
+}
+
+static long motor_ioctl(struct file *pinode, unsigned int cmd, unsigned long data)
+{
+        switch (cmd){
+
+        case MOTOR_SET_STOP:
+                iom_fpga_itf_write((unsigned int) MOTOR_ADDR_ACT, 0x00);
+                break;
+        }
+        return 0;
 }
 
 static struct file_operations motor_fops = {
     .owner   = THIS_MODULE,
     .open    = motor_open,
     .write   = motor_write,
+    .unlocked_ioctl = motor_ioctl,
     .release = motor_release,
 };
 

@@ -2,6 +2,8 @@ package com.company.my.alchoholic.sensor;
 
 import android.widget.Button;
 
+import com.company.my.alchoholic.sensor.iorequest.IoRequestProcessingThread;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +14,7 @@ public class SensorInstance implements Sensor{
     private SensorStatus status;
     private int[] fds = new int[8];
     private InputThread inputThread;
+    private IoRequestProcessingThread ioThread;
     private Vector<Vector<ButtonCallback>> btnCallbacks;
     private Vector<Vector<ButtonCallback>> switchCallbacks;
 
@@ -59,7 +62,9 @@ public class SensorInstance implements Sensor{
         else status = SensorStatus.FAIL;
 
 
-        inputThread = new InputThread(fds.clone(), btnCallbacks, switchCallbacks);
+        ioThread = new IoRequestProcessingThread();
+        ioThread.start();
+        inputThread = new InputThread(fds.clone(), btnCallbacks, switchCallbacks, ioThread);
         inputThread.start();
         System.out.println("Run Thread");
     }

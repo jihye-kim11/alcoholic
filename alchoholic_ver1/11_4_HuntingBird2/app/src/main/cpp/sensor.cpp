@@ -35,7 +35,7 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_loadSensors(JNIEnv *env, jo
     buf[3] = open("/dev/lcd", flags);
     buf[4] = open("/dev/push", flags);
     buf[5] = open("/dev/motor", flags);
-    buf[6] = open("/dev/buzzer", flags);
+    buf[6] = 0;
     buf[7] = open("/dev/switch", flags);
     env->ReleaseIntArrayElements(arr, buf, 0);
     return 0;
@@ -120,7 +120,7 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_motorSpin
 }
 
 extern "C" JNIEXPORT jint JNICALL
-Java_com_company_my_alchoholic_sensor_InputThread_readBtns(JNIEnv *env, jobject thiz, jint btn_fd) {
+Java_com_company_my_alchoholic_sensor_iorequest_ReadButtonRequest_readBtns(JNIEnv *env, jobject thiz, jint btn_fd) {
     int result = 0;
     unsigned char readData[9] = {0, };
     read(btn_fd, readData, 9);
@@ -132,7 +132,7 @@ Java_com_company_my_alchoholic_sensor_InputThread_readBtns(JNIEnv *env, jobject 
 }
 
 extern "C" JNIEXPORT jint JNICALL
-Java_com_company_my_alchoholic_sensor_InputThread_readSwitchs(JNIEnv *env, jobject thiz, jint switch_fd) {
+Java_com_company_my_alchoholic_sensor_iorequest_ReadSwitchRequest_readSwitchs(JNIEnv *env, jobject thiz, jint switch_fd) {
     unsigned char byteData = 0;
     read(switch_fd, &byteData, 1);
     //__android_log_print(ANDROID_LOG_DEBUG, "Test", "switch input %d", byteData);

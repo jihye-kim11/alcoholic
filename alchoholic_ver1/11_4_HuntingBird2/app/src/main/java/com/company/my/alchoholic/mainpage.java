@@ -53,6 +53,26 @@ public class mainpage extends AppCompatActivity {
             }
         });
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sensor.registerButtonCallback(0, new ButtonCallback() {
+                    @Override
+                    public void onButtonClick(int value) {
+                        if (value == 1){
+                            for (int idx = 0; idx < 9; idx++){
+                                sensor.showLed(idx);
+                                try {
+                                    Thread.sleep(500);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }).start();
 
     }
 

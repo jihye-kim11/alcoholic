@@ -2,21 +2,29 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
 
-
+#define MOTOR_MAGIC              0xBC
+#define MOTOR_SET_STOP          _IOW(MOTOR_MAGIC, 0, int)
 
 int main(int argc, char **argv){
 
     int fd, i;
-    unsigned char bytedata[4];
+    unsigned int speed;
+    unsigned int second;
     unsigned char ret;
+    unsigned char bytedata[3]={1, 1, 10};
 
-    bytedata[0] = atoi(argv[1]);
-    bytedata[1] = atoi(argv[2]);
-    bytedata[2] = atoi(argv[3]);
-    bytedata[3] = atoi(argv[4]);
+    speed = atoi(argv[1]);
+    bytedata[2]=speed;
+    second = atoi(argv[2]);
 
-    fd = open("/dev/motor", O_RDWR); 
+
+    fd = open("/dev/motor", O_RDWR);
     if (fd < 0) {
         printf("device open error : /dev/motor\n");
         return -1;
@@ -27,6 +35,8 @@ int main(int argc, char **argv){
         printf("write error!\n");
         return -1;
     }
+    usleep(1000000*second);
+    ioctl(fd, MOTOR_SET_STOP, NULL, _IOC_SIZE(MOTOR_SET_STOP));
 
     close(fd);
 
