@@ -18,21 +18,10 @@ public class Bird_MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.bird_activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         // Statusbar 감추기
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // getSupportActionBar().hide();
         setTitle("참새 사냥");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ( (Bird_GameView)findViewById(R.id.gameView) ).initGame();
-            }
-        });
         dbAdapter = new myDBAdapter(this);
         new Handler().postDelayed(new Runnable()
         {
