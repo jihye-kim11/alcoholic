@@ -82,6 +82,12 @@ int dotm_open(struct inode *pinode, struct file *pfile)
         return 0;
 }
 
+int dotm_release(struct inode *pinode, struct file *pfile)
+{
+        dotm_in_use = 0;
+        return 0;
+}
+
 ssize_t dotm_write(struct file *pinode, const char *gdata, size_t len, loff_t *off_what)
 {
         int ret, i;
