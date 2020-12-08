@@ -206,7 +206,7 @@ public class Bubble_GameView extends View {
     // Thread
     //-----------------------------
     class GameThread extends Thread {
-        public boolean canRun = true;
+        public volatile boolean canRun = true;
         @Override
         public void run() {
             while (canRun) {
