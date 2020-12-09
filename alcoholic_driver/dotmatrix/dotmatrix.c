@@ -19,6 +19,7 @@
 #define DOTM_SPIN               _IOW(DOTM_MAGIC, 1, int)
 #define DOTM_POP               _IOW(DOTM_MAGIC, 2, int)
 #define DOTM_BOMB               _IOW(DOTM_MAGIC, 3, int)
+#define SET_CURSOR_ZERO         _IOW(DOTM_MAGIC, 4, int)
 
 
 #define DOT_WIDTH       8 
@@ -96,18 +97,18 @@ ssize_t dotm_write(struct file *pinode, const char *gdata, size_t len, loff_t *o
         position=0;
         tmp = gdata;
 
-        ret = copy_from_user(buffer, tmp, len);
+//        ret = copy_from_user(buffer, tmp, len);
 
-        if (ret) {
-                return -EFAULT;
-        }
+//        if (ret) {
+//                return -EFAULT;
+//        }
 
-        for (i=0; i< 10; i++)
-        {
-                wordvalue = dotm_fontmap_empty[i] & 0x7F;
-                iom_fpga_itf_write((unsigned int) DOTM_ADDR+(i*2), wordvalue);
-                current_word[i] = dotm_fontmap_empty[i] & 0x7F;
-        }
+//        for (i=0; i< 10; i++)
+//        {
+//                wordvalue = dotm_fontmap_empty[i] & 0x7F;
+//                iom_fpga_itf_write((unsigned int) DOTM_ADDR+(i*2), wordvalue);
+//                current_word[i] = dotm_fontmap_empty[i] & 0x7F;
+//        }
 
 
 
@@ -116,7 +117,7 @@ ssize_t dotm_write(struct file *pinode, const char *gdata, size_t len, loff_t *o
 
 static long dotm_ioctl(struct file *pinode, unsigned int cmd, unsigned long data)
 {
-        int i, j, k;
+        int i;
         unsigned short wordvalue;
         unsigned char next_word[10];
         int next_word_index;
@@ -150,7 +151,7 @@ static long dotm_ioctl(struct file *pinode, unsigned int cmd, unsigned long data
 
                         if(position % DOT_WIDTH != 0){
                                 for(i=0;i<10;i++){
-                                        next_word[i] = dotm_fontmap_spin[buffer[next_word_index]][i];
+                                        next_word[i] = dotm_fontmap_spin[next_word_index][i];
                                         next_word[i] >>= DOT_WIDTH - (position % DOT_WIDTH)-1;
                                         next_word[i] &= 0x01;
                                 }
@@ -166,28 +167,21 @@ static long dotm_ioctl(struct file *pinode, unsigned int cmd, unsigned long data
                 break;
 
         case DOTM_POP:
-                for (i=0; i<3; i++){
-                        for(j=0; j<4; j++) {
-                                msleep(30);
-                                for (k=0; k<10;k++){
-                                        wordvalue = dotm_fontmap_pop[j][k] & 0x7F;
-                                        iom_fpga_itf_write((unsigned int) DOTM_ADDR+(k*2), wordvalue);
-                                }
-                        }
+                for (i=0; i<10; i++){
+                        wordvalue = dotm_fontmap_pop[data][i] & 0x7F;
+                        iom_fpga_itf_write((unsigned int) DOTM_ADDR+(i*2), wordvalue);
                 }
                 break;
 
         case DOTM_BOMB:
-                for (i=0; i<3; i++){
-                        for(j=0; j<4; j++) {
-                                msleep(30);
-                                for (k=0; k<10;k++){
-                                        wordvalue = dotm_fontmap_bomb[j][k] & 0x7F;
-                                        iom_fpga_itf_write((unsigned int) DOTM_ADDR+(k*2), wordvalue);
-                                }
-                        }
+                for (i=0; i<10; i++){
+                        wordvalue = dotm_fontmap_bomb[data][i] & 0x7F;
+                        iom_fpga_itf_write((unsigned int) DOTM_ADDR+(i*2), wordvalue);
                 }
                 break;
+
+        case SET_CURSOR_ZERO:
+                position = 0;
         }
         return 0;
 }

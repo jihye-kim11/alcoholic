@@ -58,10 +58,11 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_unloadSensors(JNIEnv *env, 
     return 0;
 }
 
-#define DOTM_SET_CLEAR _IOW(0xBC, 0, int)
-#define DOTM_SPIN      _IOW(0xBC, 1, int)
-#define DOTM_POP       _IOW(0xBC, 2, int)
-#define DOTM_BOMB      _IOW(0xBC, 3, int)
+#define DOTM_SET_CLEAR  _IOW(0xBC, 0, int)
+#define DOTM_SPIN       _IOW(0xBC, 1, int)
+#define DOTM_POP        _IOW(0xBC, 2, int)
+#define DOTM_BOMB       _IOW(0xBC, 3, int)
+#define SET_CURSOR_ZERO _IOW(0xBC, 4, int)
 
 extern "C" JNIEXPORT jint JNICALL
 Java_com_company_my_alchoholic_sensor_iorequest_WriteDotMatrixRequest_showDotmAni(JNIEnv *env, jobject thiz, jint fd, jint code, jint idx) {
