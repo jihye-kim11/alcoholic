@@ -79,6 +79,9 @@ Java_com_company_my_alchoholic_sensor_iorequest_WriteDotMatrixRequest_showDotmAn
         case 2:
             ioctl(fd, DOTM_BOMB, _idx, _IOC_SIZE(DOTM_BOMB));
             break;
+        case 4:
+            ioctl(fd, SET_CURSOR_ZERO, NULL, _IOC_SIZE(SET_CURSOR_ZERO));
+            break;
         default:
             ioctl(fd, DOTM_SET_CLEAR, NULL, _IOC_SIZE(DOTM_SET_CLEAR));
             break;
