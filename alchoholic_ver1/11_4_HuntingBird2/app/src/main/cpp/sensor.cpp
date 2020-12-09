@@ -58,18 +58,19 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_unloadSensors(JNIEnv *env, 
     return 0;
 }
 
-#define DOTM_SET_CLEAR _IOW(0xBC, 0, int)
-#define DOTM_SPIN      _IOW(0xBC, 1, int)
-#define DOTM_POP       _IOW(0xBC, 2, int)
-#define DOTM_BOMB      _IOW(0xBC, 3, int)
+#define DOTM_SET_CLEAR  _IOW(0xBC, 0, int)
+#define DOTM_SPIN       _IOW(0xBC, 1, int)
+#define DOTM_POP        _IOW(0xBC, 2, int)
+#define DOTM_BOMB       _IOW(0xBC, 3, int)
+#define SET_CURSOR_ZERO _IOW(0xBC, 4, int)
 
 extern "C" JNIEXPORT jint JNICALL
 Java_com_company_my_alchoholic_sensor_SensorInstance_dotmSpin(JNIEnv *env, jobject thiz, jint dotm_fd) {
     if (dotm_fd < 0) return -1;
     __android_log_print(ANDROID_LOG_DEBUG, "dotmSpin", "enter dotmSpin");
-    unsigned char buf[6] = { 0, 1, 2, 3, 4, 5 };
+
     for (int j = 0; j < 2; j ++){
-        write(dotm_fd, buf, 6);
+        ioctl(dotm_fd, SET_CURSOR_ZERO, NULL, _IOC_SIZE(SET_CURSOR_ZERO));
         for (int i = 0; i < 40; i++) {
             ioctl(dotm_fd, DOTM_SPIN, NULL, _IOC_SIZE(DOTM_SPIN));
             usleep(1000*50);
