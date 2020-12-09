@@ -30,11 +30,6 @@ public class loading extends AppCompatActivity {
         sensor.showLcd("turning", "tunring");
         sensor.show7Seg(1);
         sensor.showLed(8);
-       // sensor.show7Seg(1244);
-      //  sensor.showLed(3);
-       // sensor.showLed(4);
-       // sensor.showLed(5);
-       // sensor.showLcd(0,"hunting bird");
         new Handler().postDelayed(new Runnable()
         {
             @Override
