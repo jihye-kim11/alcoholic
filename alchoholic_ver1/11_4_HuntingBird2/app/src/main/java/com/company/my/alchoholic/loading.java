@@ -27,8 +27,8 @@ public class loading extends AppCompatActivity {
         
         sensor.runMotor( 1, 10);
         sensor.startAnimatedDot(0);
-        sensor.showLcd("turning", "tunring");
-        sensor.show7Seg(1);
+        sensor.showLcd("", "");
+        sensor.show7Seg(0);
         sensor.showLed(8);
        // sensor.show7Seg(1244);
       //  sensor.showLed(3);
@@ -40,8 +40,6 @@ public class loading extends AppCompatActivity {
             @Override
             public void run()
             {
-                sensor.showLcd("", "");
-                sensor.show7Seg(0);
                 sensor.showLed(0);
                 sensor.stopMotor();
                 Intent intent = new Intent(getApplicationContext(), select.class);
