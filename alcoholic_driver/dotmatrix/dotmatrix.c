@@ -137,8 +137,8 @@ static long dotm_ioctl(struct file *pinode, unsigned int cmd, unsigned long data
                 break;
 
         case DOTM_SPIN:
-                if(position>=48) {
-                        porition=0;
+                if(position<0 || position>48){
+                        position=0;
                 }
                 for(i=0;i<10;i++){
                         next_word[i] = 0;
@@ -148,6 +148,7 @@ static long dotm_ioctl(struct file *pinode, unsigned int cmd, unsigned long data
                         current_word[i] <<= 1;
                         current_word[i] &= 0x7F;
                 }
+
 
                 if(position > 0 || (position / DOT_WIDTH) < word_len) {
                         next_word_index = (position / DOT_WIDTH);

@@ -138,13 +138,13 @@ public class SensorInstance implements Sensor{
     public void startAnimatedDot(final int code) {
         final int fd = fds[SensorType.DOT_MATRIX.getSensorCode()];
         if (code == 0) {
-            for (int i = 0; i < 2; i ++) {
-                ioThread.addRequest(new WriteDotMatrixRequest(fd, 4, 0));
-                for (int idx = 0; idx < 48; idx++) {
-                    ioThread.addRequest(new WriteDotMatrixRequest(fd, 0, 0));
-                }
+
+            ioThread.addRequest(new WriteDotMatrixRequest(fd, 4, 0));
+            for (int idx = 0; idx < 48; idx++) {
+                ioThread.addRequest(new WriteDotMatrixRequest(fd, 0, 0));
             }
-            ioThread.addRequest(new WriteDotMatrixRequest(fd, 3, 0));
+            ioThread.addRequest(new WriteDotMatrixRequest(fd, 4, 0));
+            //ioThread.addRequest(new WriteDotMatrixRequest(fd, 3, 0));
         }
         else if (code == 1){
             for (WriteDotMatrixRequest rq: currentAnimation){
