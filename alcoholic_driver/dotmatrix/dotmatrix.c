@@ -137,6 +137,9 @@ static long dotm_ioctl(struct file *pinode, unsigned int cmd, unsigned long data
                 break;
 
         case DOTM_SPIN:
+                if(position>=48) {
+                        porition=0;
+                }
                 for(i=0;i<10;i++){
                         next_word[i] = 0;
                 }

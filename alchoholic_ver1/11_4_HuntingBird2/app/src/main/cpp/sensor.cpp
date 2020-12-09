@@ -71,7 +71,7 @@ Java_com_company_my_alchoholic_sensor_SensorInstance_dotmSpin(JNIEnv *env, jobje
 
     for (int j = 0; j < 2; j ++){
         ioctl(dotm_fd, SET_CURSOR_ZERO, NULL, _IOC_SIZE(SET_CURSOR_ZERO));
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 48; i++) {
             ioctl(dotm_fd, DOTM_SPIN, NULL, _IOC_SIZE(DOTM_SPIN));
             usleep(1000*50);
         }
